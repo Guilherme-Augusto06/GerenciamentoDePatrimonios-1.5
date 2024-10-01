@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
-from .forms import FormLogin, formCadastroUsuario, InventarioForm
+from .forms import FormLogin, formCadastroUsuario, InventarioForm, SalaForm
 from .models import Senai
 from django.contrib.auth.models import User
-from .models import Inventario
+from .models import Inventario, Sala
 from django.core.cache import cache
 from django.http import HttpResponse
 from .models import Inventario
@@ -29,8 +29,22 @@ def profile(request):
 def faq(request):
     return render(request, 'faq.html')
 
+
 def welcomeHomepage(request):
-    return render(request, 'welcomeHomepage.html')
+    sala = Sala.objects.all()
+    sala_especifica = sala.first()
+
+    if request.method == 'POST':
+        form = SalaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('welcomeHomepage')
+    else:
+        form = SalaForm()
+
+    sala = Sala.objects.all()
+
+    return render(request, 'welcomeHomepage.html', {'form': form, 'sala': sala, 'sala_especifica': sala_especifica})
 
 # Importar o modelo de itens (substitua Item pelo nome correto do seu modelo)
 
@@ -38,6 +52,7 @@ def welcomeHomepage(request):
 def itens(request):
     inventario = Inventario.objects.all()
     item_especifico = inventario.first()  # ou qualquer outro critério para escolher o item
+
    
     if request.method == 'POST':
         form = InventarioForm(request.POST)
@@ -144,20 +159,7 @@ def buscar_itens(request):
 
 
 
-def excluir_inventario(request):
-    if request.method == 'POST':
-        num_inventario = request.POST.get('num_inventario')
-        print(f"Recebido num_inventario: {num_inventario}")  # Verificando o valor recebido
 
-        # Excluir o item baseado no número de inventário
-        try:
-            item = Inventario.objects.get(num_inventario=num_inventario)
-            item.delete()
-            print(f"Item {num_inventario} excluído com sucesso")  # Log de sucesso
-            return redirect('itens')  # Redirecionar após exclusão
-        except Inventario.DoesNotExist:
-            print(f"Item {num_inventario} não encontrado")  # Log de erro
-            return HttpResponse("Item não encontrado.", status=404)
 
 
 def update_item(request):

@@ -1,5 +1,6 @@
 from django import forms
-from .models import Inventario
+from .models import Inventario, Sala
+
 
 class formCadastroUsuario(forms.Form):
     first_name = forms.CharField(label="Nome", max_length=40, widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -16,3 +17,9 @@ class InventarioForm(forms.ModelForm):
     class Meta:
         model = Inventario
         fields = ['num_inventario', 'denominacao', 'localizacao','sala', 'link_imagem']  
+
+class SalaForm(forms.ModelForm):
+    class Meta:
+        model = Sala
+        fields = ['sala', 'descricao', 'localizacao', 'link_imagem', 'responsavel']
+

@@ -89,83 +89,22 @@
         </div>
     </section>
     <section class="grid-container">
+        {% for sala in salas %}
         <div class="item-card-w">
             <div class="image-container">
-                <img src="{% static 'img/salaImage.png' %}" alt="Notebook Dell 80GB">
-                <span class="badge">40</span>
+                <img src="{% static 'img/salaImage.png' %}" alt="Imagem da Sala {{ sala.nome }}">
+                <span class="badge">{{ sala.quantidade }}</span>
             </div>
             <div class="item-info">
-                <h3>Sala C13</h3>
-                <p>1260689</p>
-                <p>Notebook de Número 15</p>
-                <p>Localizado na C13</p>
-            </div>
-        </div> 
-        <div class="item-card-w">
-            <div class="image-container">
-                <img src="{% static 'img/salaImage.png' %}" alt="Notebook Dell 80GB">
-                <span class="badge">40</span>
-            </div>
-            <div class="item-info">
-                <h3>Sala C14</h3>
-                <p>1260689</p>
-                <p>Notebook de Número 15</p>
-                <p>Localizado na C14</p>
+                <h3>{{ sala.nome }}</h3>
+                <p>{{ sala.num_inventario }}</p>
+                <p>{{ sala.descricao }}</p>
+                <p>Localizado na {{ sala.localizacao }}</p>
             </div>
         </div>
-        <!-- ---------------------- -->
-        <div class="item-card-w">
-            <div class="image-container">
-                <img src="{% static 'img/salaImage.png' %}" alt="Notebook Dell 80GB">
-                <span class="badge">40</span>
-            </div>
-            <div class="item-info">
-                <h3>Sala C15</h3>
-                <p>1260689</p>
-                <p>Notebook de Número 15</p>
-                <p>Localizado na C15</p>
-            </div>
-        </div>
-        <!-- ---------------------- -->
-        <div class="item-card-w">
-            <div class="image-container">
-                <img src="{% static 'img/salaImage.png' %}" alt="Notebook Dell 80GB">
-                <span class="badge">40</span>
-            </div>
-            <div class="item-info">
-                <h3>Sala C16</h3>
-                <p>1260689</p>
-                <p>Notebook de Número 15</p>
-                <p>Localizado na C16</p>
-            </div>
-        </div>
-        <!-- ---------------------- -->
-        <div class="item-card-w">
-            <div class="image-container">
-                <img src="{% static 'img/salaImage.png' %}" alt="Notebook Dell 80GB">
-                <span class="badge">40</span>
-            </div>
-            <div class="item-info">
-                <h3>Sala C17</h3>
-                <p>1260689</p>
-                <p>Notebook de Número 15</p>
-                <p>Localizado na C17</p>
-            </div>
-        </div>
-        <!-- ---------------------- -->
-        <div class="item-card-w">
-            <div class="image-container">
-                <img src="{% static 'img/salaImage.png' %}" alt="Notebook Dell 80GB">
-                <span class="badge">40</span>
-            </div>
-            <div class="item-info">
-                <h3>Sala C18</h3>
-                <p>1260689</p>
-                <p>Notebook de Número 15</p>
-                <p>Localizado na C18</p>
-            </div>
-        </div>
+        {% endfor %}
     </section>
+    
 </div>
 
 {% endblock %}

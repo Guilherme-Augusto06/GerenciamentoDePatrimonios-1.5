@@ -28,6 +28,7 @@ class Sala(models.Model):
     localizacao = models.CharField(max_length=10)
     link_imagem = models.URLField(max_length=500, blank=True, null=True)
     responsavel = models.CharField(max_length=50)
+    quantidade_itens = models.IntegerField(default=0)
     
 
     def __str__(self):
