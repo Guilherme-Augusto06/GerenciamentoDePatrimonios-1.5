@@ -16,9 +16,6 @@ from django.shortcuts import get_object_or_404
 def homepage(request):
     return render(request, 'homepage.html')
 
-def homepageDark(request):
-    return render(request, 'homepageDark.html')
-
 def login(request):
     return render(request, 'login.html')
 
@@ -49,38 +46,58 @@ def welcomeHomepage(request):
 # Importar o modelo de itens (substitua Item pelo nome correto do seu modelo)
 
 
-def itens(request):
-    inventario = Inventario.objects.all()
-    item_especifico = inventario.first()  # ou qualquer outro critério para escolher o item
+#---------------------------- CRUD DE SALAS ----------------------------
 
-   
+def adicionar_salas(request):
     if request.method == 'POST':
-        form = InventarioForm(request.POST)
+        form = SalaForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('itens')  # Redireciona para a página de itens
+            return redirect('welcomeHomepage')
     else:
-        form = InventarioForm()
+        form = SalaForm()
+
+    sala = Sala.objects.all()
     
-    return render(request, 'itens.html', {'form': form, 'inventario': inventario, 'item_especifico': item_especifico})
+    return render(request, 'welcomeHomepage.html', {'form': form, 'sala': sala})
 
-
-
-def adicionar_inventario(request):
+def update_sala(request):
     if request.method == 'POST':
-        form = InventarioForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # Redirecionar para a rota inicial, independente de onde estava
-    else:
-        form = InventarioForm()
-    
-    # Se precisar listar todos os itens no modal de adição, inclua isso:
-    inventario = Inventario.objects.all()
-    
-    return render(request, 'itens.html', {'form': form, 'inventario': inventario})
+        sala = request.POST.get('sala')
+        
+        # Busca a sala no banco de dados
+        sala = get_object_or_404(Sala, sala=sala)
+
+        # Atualiza os valores com base nos dados do formulário
+        sala.descricao = request.POST.get('descricao')
+        sala.localizacao = request.POST.get('localizacao')
+        sala.link_imagem = request.POST.get('imagem')
+        sala.responsavel = request.POST.get('responsavel')
+        sala.save()
+
+        # Redireciona de volta à página de salas ou para onde você quiser
+        return redirect('welcomeHomepage')  
+
+    return HttpResponse("Método não permitido.", status=405)
+
+def excluir_sala(request):
+    if request.method == 'POST':
+        sala = request.POST.get('sala')
+        
+        # Exclui a sala com base no nome
+        try:
+            sala = Sala.objects.get(sala=sala)
+            sala.delete()
+            return redirect('welcomeHomepage')  # Redireciona para a lista de salas após exclusão
+        except Sala.DoesNotExist:
+            return HttpResponse("Sala não encontrada.", status=404)
 
 
+
+
+
+
+#---------------------------- LOGIN E CADASTRO DE USUÁRIO ----------------------------
 
 def cadastroUsuario(request):
     context = {}
@@ -130,6 +147,36 @@ def login(request):
         context['form'] = form
         return render(request, 'login.html', context)
     
+
+#---------------------------- CRUD DE INVENTÁRIO ----------------------------
+def itens(request):
+    inventario = Inventario.objects.all()
+    item_especifico = inventario.first()  # ou qualquer outro critério para escolher o item
+
+   
+    if request.method == 'POST':
+        form = InventarioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('itens')  # Redireciona para a página de itens
+    else:
+        form = InventarioForm()
+    
+    return render(request, 'itens.html', {'form': form, 'inventario': inventario, 'item_especifico': item_especifico})
+
+def adicionar_inventario(request):
+    if request.method == 'POST':
+        form = InventarioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Redirecionar para a rota inicial, independente de onde estava
+    else:
+        form = InventarioForm()
+    
+    # Se precisar listar todos os itens no modal de adição, inclua isso:
+    inventario = Inventario.objects.all()
+    
+    return render(request, 'itens.html', {'form': form, 'inventario': inventario})
 
 def buscar_itens(request):
     context = {}

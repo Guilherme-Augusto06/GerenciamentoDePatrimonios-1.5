@@ -4,7 +4,6 @@ from .views import buscar_itens
 
 urlpatterns = [
         path('', views.homepage, name="homepage"),         # Inclui as urls do app blog
-        path('homepageDark', views.homepageDark, name="homepageDark"),   # Inclui as urls do app blog
         path('login', views.login, name="login"),           # Inclui as urls do app blog
         path('cadastroUsuario', views.cadastroUsuario, name='cadastroUsuario'),
         path('profile', views.profile, name="profile"),       # Inclui as urls do app blog
@@ -16,5 +15,8 @@ urlpatterns = [
         path('excluir_inventario/', views.excluir_inventario, name='excluir_inventario'),
         path('update-item/', views.update_item, name='update_item'),
         path('excluir-item/', views.excluir_inventario, name='excluir_inventario'),
+        path('update-sala/', views.update_sala, name='update_sala'),
+        path('excluir-sala/', views.excluir_sala, name='excluir_sala'),
+        path('adicionar-salas/', views.adicionar_salas, name='adicionar_salas'),
 
 ]
