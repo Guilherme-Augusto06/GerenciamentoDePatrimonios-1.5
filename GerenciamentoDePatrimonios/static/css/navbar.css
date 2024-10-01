@@ -70,6 +70,10 @@
     text-decoration: none;
 }
 
+.menuItens-component2{
+    margin-left: 65px;
+}
+
 .PrimaryButton-component:hover {
     background-color: #781010;
 }
@@ -93,6 +97,7 @@
     text-decoration: none;
     font-size: 28px;
     list-style-type: none;
+    margin-right: 30px;
 }
 .menuItens-component{
     margin-left:60px;

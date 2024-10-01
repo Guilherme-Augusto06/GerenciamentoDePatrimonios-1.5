@@ -3,7 +3,7 @@
 
 {% block body %}
 
-{% include "navbar.html" %}
+{% include "navbarAutenticado.html" %}
 <div class="body-homepage">
     <header class="cabecalho-welcome">
         <div class="conteudo-cabecalho">
@@ -65,45 +65,27 @@
     <section class="salas-section">
         <div class="Salas">
             <div class="Salas-text">
-                <p>Vá para esta página</p>
-                <p>Salas</p>
-                <p>Salas mais utilizadas do Senai!</p>
-            </div>
-            <div class="botoes-salas">
-                <div class="botao-sala">
-                    <span class="material-symbols-outlined">
-                        edit
-                        </span>
-                </div>
-                <div class="botao-sala">
-                    <span class="material-symbols-outlined">
-                        add_circle
-                        </span>
-                </div>
-                <div class="botao-sala">
-                    <span class="material-symbols-outlined">
-                        delete
-                        </span>
-                </div>
+                <h2>Salas</h2>
             </div>
         </div>
     </section>
     <section class="grid-container">
-        {% for sala in salas %}
+        {% for item in sala %}
         <div class="item-card-w">
             <div class="image-container">
-                <img src="{% static 'img/salaImage.png' %}" alt="Imagem da Sala {{ sala.nome }}">
-                <span class="badge">{{ sala.quantidade }}</span>
+                <img src="{{ item.link_imagem }}" alt="Imagem da Sala {{ item.sala }}">
+                <span class="badge">{{ item.quantidade_itens }}</span>
             </div>
             <div class="item-info">
-                <h3>{{ sala.nome }}</h3>
-                <p>{{ sala.num_inventario }}</p>
-                <p>{{ sala.descricao }}</p>
-                <p>Localizado na {{ sala.localizacao }}</p>
+                <h3>{{ item.sala }}</h3>
+
+                <p>{{ item.descricao }}</p>
+                <p>Localizado na {{ item.localizacao }}</p>
             </div>
         </div>
         {% endfor %}
     </section>
+    
     
 </div>
 

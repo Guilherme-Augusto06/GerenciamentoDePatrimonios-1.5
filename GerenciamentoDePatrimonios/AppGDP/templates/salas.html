@@ -5,8 +5,9 @@
 {% include "navbarAutenticado.html" %}
 
 <main class="bg-body-i-w">
-    <h1>Itens</h1>
-    <h2>Sala  {{ item.sala }}</h2>
+    <h1>Salas</h1>
+    
+    <h2>{{ item.sala }}</h2>
 
     <div class="search-container">
         <form id="searchForm" method="GET" action="{% url 'buscar_itens' %}">
@@ -30,14 +31,14 @@
     </div>
 
     <div class="items-container">
-        {% for item in inventario %}
+        {% for item in sala %}
         <div class="item-card" onclick="openItemModal('{{ item.denominacao }}', '{{ item.num_inventario }}', '{{ item.link_imagem }}', '{{ item.localizacao }}', '{{ item.sala }}')">
             <div class="bg-img">
                 <img src="{{ item.link_imagem }}" alt="{{ item.denominacao }}">
             </div>
             <div class="inf">
-                <h3>{{ item.denominacao }}</h3>
-                <p>Inventário: {{ item.num_inventario }}</p>
+                <h3>{{ item.sala }}</h3>
+                <p>Localização: {{ item.localizacao }}</p>
             </div>
         </div>
         {% endfor %}

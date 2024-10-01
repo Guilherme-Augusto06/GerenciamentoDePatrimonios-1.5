@@ -18,5 +18,6 @@ urlpatterns = [
         path('update-sala/', views.update_sala, name='update_sala'),
         path('excluir-sala/', views.excluir_sala, name='excluir_sala'),
         path('adicionar-salas/', views.adicionar_salas, name='adicionar_salas'),
+        path('salas', views.salas, name='salas'),
 
 ]

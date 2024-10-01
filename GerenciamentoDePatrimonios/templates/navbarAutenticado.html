@@ -1,0 +1,101 @@
+{% load static %}
+
+<!-- Navbar -->
+<nav>
+    <div class="navbarComplete-component">
+        <div class="itens-component">
+            <div class="logo-component">
+                <a href="welcomeHomepage">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/SENAI_S%C3%A3o_Paulo_logo.png" alt="Logo" class="logoImage-Component">
+                </a>
+            </div>
+            <div class="menuItens-component2">
+                <a href="welcomeHomepage" class="faqButton-component">Home</a>
+                <a href="itens" class="faqButton-component">Itens</a>
+                <a href="salas" class="faqButton-component">Salas</a>
+            </div>
+            <div class="Buttons-component">
+                <a id="theme-toggle" class="IconButton-homepage">
+                    <span class="material-symbols-outlined darkModeHomepage" style="z-index: 10;">contrast</span>
+                </a>
+                <a href="#" class="PrimaryButton-component" id="logout-btn">Sair</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Modal de confirmação -->
+<div id="confirmLogoutModal" class="modal2">
+    <div class="modal-content2">
+        <h3>Você realmente deseja sair?</h3>
+        <div class="modal-buttons2">
+            <a href="/" class="modal-btn2 modal-confirm2">Desconectar</a>
+            <button class="modal-btn2 modal-cancel2" id="cancel-btn">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<!-- CSS para a Modal -->
+<style>
+    .modal2 {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-content2 {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        width: 300px;
+    }
+    .modal-buttons2 {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    .modal-btn2 {
+        padding: 10px ;
+        border: none;
+        text-align: center;
+        justify-content: center;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        width: 48%; /* Tamanho igual para os dois botões */
+    }
+    .modal-confirm2 {
+        background-color: #781010;
+        color: white;
+    }
+    .modal-cancel2 {
+        background-color: gray;
+        color: white;
+    }
+</style>
+
+<!-- JavaScript para controlar a Modal -->
+<script>
+    document.getElementById("logout-btn").addEventListener("click", function (event) {
+        event.preventDefault();
+        document.getElementById("confirmLogoutModal").style.display = "flex";
+    });
+
+    document.getElementById("cancel-btn").addEventListener("click", function () {
+        document.getElementById("confirmLogoutModal").style.display = "none";
+    });
+
+    // Fechar a modal se clicar fora dela
+    window.onclick = function (event) {
+        if (event.target === document.getElementById("confirmLogoutModal")) {
+            document.getElementById("confirmLogoutModal").style.display = "none";
+        }
+    }
+</script>

@@ -93,7 +93,19 @@ def excluir_sala(request):
             return HttpResponse("Sala não encontrada.", status=404)
 
 
+def salas(request):
+    sala = Sala.objects.all()
+    sala_especifica = sala.first()  # ou qualquer outro critério para escolher a sala
 
+    if request.method == 'POST':
+        form = SalaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('salas')  # Redireciona para a página de salas
+    else:
+        form = SalaForm()
+    
+    return render(request, 'salas.html', {'form': form, 'sala': sala, 'sala_especifica': sala_especifica})
 
 
 
@@ -149,6 +161,7 @@ def login(request):
     
 
 #---------------------------- CRUD DE INVENTÁRIO ----------------------------
+
 def itens(request):
     inventario = Inventario.objects.all()
     item_especifico = inventario.first()  # ou qualquer outro critério para escolher o item
@@ -239,3 +252,5 @@ def excluir_inventario(request):
             return redirect('itens')  # Redireciona para a lista de itens após exclusão
         except Inventario.DoesNotExist:
             return HttpResponse("Item não encontrado.", status=404)
+        
+
