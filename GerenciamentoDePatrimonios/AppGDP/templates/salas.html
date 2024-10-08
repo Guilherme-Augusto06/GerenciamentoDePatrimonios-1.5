@@ -32,7 +32,7 @@
 
     <div class="items-container">
         {% for item in sala %}
-        <div class="item-card" onclick="openItemModal('{{ item.denominacao }}', '{{ item.num_inventario }}', '{{ item.link_imagem }}', '{{ item.localizacao }}', '{{ item.sala }}')">
+        <div class="item-card" onclick="openItemModal('{{ item.sala }}', '{{ item.descricao }}', '{{ item.localizacao }}', '{{ item.link_imagem }}', '{{ item.responsavel }}', '{{ item.quantidade_itens }}')">
             <div class="bg-img">
                 <img src="{{ item.link_imagem }}" alt="{{ item.denominacao }}">
             </div>
@@ -48,26 +48,32 @@
 
     <!-- Modal de Visualização do Item -->
 <!-- Modal de Visualização do Item -->
+<!-- Modal de Visualização do Item -->
+<!-- Modal de Visualização do Item -->
 <div id="modalItem" class="modal">
     <div class="modal-content">
         <button type="button" class="btn-close" onclick="closeModal('modalItem')">X</button>
         <h2 class="adicionarH2Itens">Informações</h2>
         <form id="itemForm" method="POST" action="{% url 'update_item' %}">
             {% csrf_token %}
-            <label for="denominacaoInput">Denominação:</label>
-            <input type="text" id="denominacaoInput" name="denominacao" value="" readonly>
-
-            <label for="numInventarioInput">Número de Inventário:</label>
-            <input type="text" id="numInventarioInput" name="numInventario" value="" readonly>
             
-            <label for="localizacaoInput">Localização: </label>
-            <input type="text" id="localizacaoInput" name="localizacao" value="" readonly>
-
             <label for="salaInput">Sala:</label>
             <input type="text" id="salaInput" name="sala" value="" readonly>
 
-            <label for="imagemInput">Imagem:</label>
-            <input type="text" id="imagemInput" name="imagem" value="" readonly>
+            <label for="descricaoInput">Descrição:</label>
+            <input type="text" id="descricaoInput" name="descricao" value="" readonly>
+            
+            <label for="localizacaoInput">Localização:</label>
+            <input type="text" id="localizacaoInput" name="localizacao" value="" readonly>
+
+            <label for="link_imagemInput">Link da imagem:</label>
+            <input type="text" id="link_imagemInput" name="link_imagem" value="" readonly>
+
+            <label for="responsavelInput">Responsável:</label>
+            <input type="text" id="responsavelInput" name="responsavel" value="" readonly>
+
+            <label for="quantidadeItensInput">Quantidade de Itens:</label>
+            <input type="number" id="quantidadeItensInput" name="quantidade_itens" value="" readonly>
 
             <div class="modal-actions">
                 <button type="button" id="editButton" class="editButton" onclick="enableEdit()">Editar</button>
@@ -78,6 +84,8 @@
         </form>
     </div>
 </div>
+
+
 
 <!-- Modal de Filtros -->
 <div id="modalFiltro" class="modal">
@@ -144,45 +152,46 @@
                 event.target.style.display = "none";
             }
         }
-
         function enableEdit() {
-            // Torna os campos editáveis
-            document.getElementById("denominacaoInput").removeAttribute("readonly");
-            document.getElementById("numInventarioInput").removeAttribute("readonly");
+            // Permite a edição dos campos
+            document.getElementById("descricaoInput").removeAttribute("readonly");
             document.getElementById("localizacaoInput").removeAttribute("readonly");
-            document.getElementById("salaInput").removeAttribute("readonly");
-            document.getElementById("imagemInput").removeAttribute("readonly");
+            document.getElementById("responsavelInput").removeAttribute("readonly");
+            document.getElementById("quantidadeItensInput").removeAttribute("readonly");
             
-            // Exibe o botão de salvar e oculta o botão de editar
+            // Mostra o botão de salvar e esconde o de editar
             document.getElementById("editButton").style.display = "none";
             document.getElementById("saveButton").style.display = "inline-block";
 
-            // Altera o action do formulário para o URL de atualização (edição)
-            document.getElementById("itemForm").action = "{% url 'update_item' %}";
+            // Altera a ação do formulário para o URL de atualização
+            document.getElementById("itemForm").action = "{% url 'update_sala' %}";
         }
 
         function confirmDelete() {
-            // Confirmação simples antes de excluir
+            // Exibe uma mensagem de confirmação
             if (confirm("Tem certeza de que deseja excluir este item?")) {
-                // Altera o action do formulário para o URL de exclusão
-                document.getElementById("itemForm").action = "{% url 'excluir_inventario' %}";
+                // Altera a ação do formulário para o URL de exclusão
+                document.getElementById("itemForm").action = "{% url 'excluir_sala' %}";
                 document.getElementById("itemForm").submit();
             }
         }
 
 
+
         function saveChanges() {
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value; // Obtém o token CSRF
             const formData = {
-                denominacao: document.getElementById("denominacaoInput").value,
-                numInventario: document.getElementById("numInventarioInput").value,
-                localizacao: document.getElementById("localizacaoInput").value,
                 sala: document.getElementById("salaInput").value,
-                imagem: document.getElementById("imagemInput").value,
+                descricao: document.getElementById("descricaoInput").value,
+                localizacao: document.getElementById("localizacaoInput").value,
+                link_imagem: document.getElementById("link_imagemInput").value,
+                responsavel: document.getElementById("responsavelInput").value,
+                quantidade_itens: document.getElementById("quantidadeItensInput").value
+                
             };
 
             // Faz uma requisição AJAX para enviar os dados ao servidor
-            fetch('/update-item/', {
+            fetch('/update-sala/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -205,19 +214,23 @@
             document.getElementById("saveButton").style.display = "none";
 
             // Desativa os campos de input
-            document.getElementById("denominacaoInput").setAttribute("readonly", true);
-            document.getElementById("numInventarioInput").setAttribute("readonly", true);
-            document.getElementById("localizacaoInput").setAttribute("readonly", true);
             document.getElementById("salaInput").setAttribute("readonly", true);
-            document.getElementById("imagemInput").setAttribute("readonly", true);
+            document.getElementById("descricaoInput").setAttribute("readonly", true);
+            document.getElementById("localizacaoInput").setAttribute("readonly", true);
+            document.getElementById("link_imagemInput").setAttribute("readonly", true);
+            document.getElementById("responsavelInput").setAttribute("readonly", true);
+            document.getElementById("quantidadeItensInput").setAttribute("readonly", true);
+
         }
 
-        function openItemModal(denominacao, numInventario, linkImagem, localizacao, sala) {
-            document.getElementById('denominacaoInput').value = denominacao;
-            document.getElementById('numInventarioInput').value = numInventario;
-            document.getElementById('imagemInput').value = linkImagem;
+        function openItemModal(sala, descricao, localizacao, link_imagem, responsavel, quantidade_itens) {
+            document.getElementById('salaInput').value = sala;
+            document.getElementById('descricaoInput').value = descricao;
             document.getElementById('localizacaoInput').value = localizacao;
-            document.getElementById('salaInput').value = sala
+            document.getElementById('link_imagemInput').value = link_imagem;
+            document.getElementById('responsavelInput').value = responsavel;
+            document.getElementById('quantidadeItensInput').value = quantidade_itens;
+
 
             
             openModal('modalItem');
@@ -243,14 +256,14 @@
 
         function closeConfirmation() {
             document.getElementById('modalConfirmation').style.display = 'none';
-            window.location.href = "{% url 'itens' %}";
+            window.location.href = "{% url 'salas' %}";
         }
 
         document.getElementById('addItemForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const formData = new FormData(this);
 
-            fetch("{% url 'adicionar_inventario' %}", {
+            fetch("{% url 'adicionar_salas' %}", {
                 method: 'POST',
                 body: formData,
             })

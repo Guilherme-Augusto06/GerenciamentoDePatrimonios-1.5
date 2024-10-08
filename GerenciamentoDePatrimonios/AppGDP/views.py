@@ -71,12 +71,13 @@ def update_sala(request):
         # Atualiza os valores com base nos dados do formulário
         sala.descricao = request.POST.get('descricao')
         sala.localizacao = request.POST.get('localizacao')
-        sala.link_imagem = request.POST.get('imagem')
+        sala.link_imagem = request.POST.get('link_imagem')	
         sala.responsavel = request.POST.get('responsavel')
+        sala.quantidade_itens = request.POST.get('quantidade_itens')
         sala.save()
 
         # Redireciona de volta à página de salas ou para onde você quiser
-        return redirect('welcomeHomepage')  
+        return redirect('salas')  
 
     return HttpResponse("Método não permitido.", status=405)
 
@@ -88,7 +89,7 @@ def excluir_sala(request):
         try:
             sala = Sala.objects.get(sala=sala)
             sala.delete()
-            return redirect('welcomeHomepage')  # Redireciona para a lista de salas após exclusão
+            return redirect('salas')  # Redireciona para a lista de salas após exclusão
         except Sala.DoesNotExist:
             return HttpResponse("Sala não encontrada.", status=404)
 
@@ -237,7 +238,7 @@ def update_item(request):
         item.save()
 
         # Redireciona de volta à página de itens ou para onde você quiser
-        return redirect('itens')  
+        return redirect('salas')  
 
     return HttpResponse("Método não permitido.", status=405)
 

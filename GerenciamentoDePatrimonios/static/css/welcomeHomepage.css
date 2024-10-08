@@ -13,7 +13,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 60px 60px;
-
     color: var(--text-color);   
     flex-wrap: wrap; /* Responsivo */
     max-width: 1250px; /* Defina uma largura máxima */
@@ -351,14 +350,23 @@
     color: var(--text-color);   
     margin: 2px 0;
 }
-
-
-
-
 /* Ajustar número de colunas em telas menores */
 @media (max-width: 1024px) {
     .grid-container {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cabecalho h1 {
+        font-size: 36px; /* Diminuir o tamanho do título */
+    }
+
+    .cabecalho p {
+        font-size: 14px; /* Diminuir o tamanho do texto */
+    }
+
+    .botao-cadastro {
+        font-size: 24px; /* Diminuir o tamanho do botão */
+        width: auto; /* Ajustar largura do botão */
     }
 }
 
@@ -366,30 +374,73 @@
     .grid-container {
         grid-template-columns: 1fr;
     }
+
+    .cabecalho h1 {
+        font-size: 28px; /* Diminuir ainda mais o título */
+    }
+
+    .cabecalho p {
+        font-size: 12px; /* Diminuir ainda mais o texto */
+    }
+
+    .botao-cadastro {
+        font-size: 20px; /* Diminuir o tamanho do botão */
+        padding: 10px 20px; /* Ajustar padding */
+    }
+
+    .box {
+        width: 100%; /* Ajustar largura da box */
+        height: auto; /* Ajustar altura da box */
+    }
 }
 
 /* Ajustar largura da imagem no header em telas menores */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .conteudo-cabecalho {
         max-width: 100%; /* Ajuste para telas menores */
         text-align: center;
+        flex-direction: column; /* Flex para empilhar verticalmente */
     }
     
     .cabecalho-welcome {
         flex-direction: column; /* Empilhar conteúdo verticalmente */
         padding: 30px 20px;
+        text-align: center; /* Centralizar o texto */
     }
 
-    .image-container img{
-        max-width: 450px;
+    .image-container img {
+        max-width: 100%; /* Ajustar a imagem para ocupar 100% da largura disponível */
+        height: auto; /* Manter a proporção da imagem */
     }
 
-    .item-card{
-        max-width: 450px;
+    .item-card {
+        max-width: 100%; /* Ajustar largura do cartão */
+        text-align: center;
     }
 
-    .grid-container{
-        align-items: center;
-        justify-content: center;
+    .grid-container {
+        align-items: center; /* Centralizar itens */
+        justify-content: center; /* Centralizar itens */
+    }
+
+    .servicos {
+        flex-direction: column; /* Empilhar serviços verticalmente */
+        text-align: center; /* Centralizar texto dos serviços */
+    }
+
+    .cartao-servico {
+        width: 100%; /* Ajustar o cartão de serviço para 100% */
+        margin: 10px 0; /* Espaçamento entre os cartões */
+    }
+
+    .botoes-salas {
+        flex-direction: column; /* Empilhar botões verticalmente */
+        gap: 10px; /* Ajustar espaço entre botões */
+        text-align: center;
+    }
+
+    .botao-sala {
+        width: 50px; /* Ajustar largura do botão */
+        height: 50px; /* Ajustar altura do botão */
     }
 }

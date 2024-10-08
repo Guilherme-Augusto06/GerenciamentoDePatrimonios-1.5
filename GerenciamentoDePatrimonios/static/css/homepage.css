@@ -83,6 +83,10 @@
         padding: 12px 8%;
         font-size: 1.3rem;
     }
+
+    .itensHomepage {
+        justify-content: center; /* Centraliza os itens */
+    }
 }
 
 @media (max-width: 768px) {
@@ -107,9 +111,35 @@
     .itensHomepage {
         flex-direction: column; /* Muda a direção para coluna em telas menores */
         text-align: center; /* Centraliza o texto em telas menores */
+        align-items: center; /* Centraliza itens na coluna */
     }
 
     .iconHomepage {
         margin-top: 2rem;
+        font-size: 2rem; /* Ajusta o tamanho do ícone em telas menores */
+    }
+}
+
+/* Estilos adicionais para telas ainda menores */
+@media (max-width: 480px) {
+    .titleHomepage {
+        font-size: 2.5rem; /* Reduz ainda mais o tamanho do título */
+    }
+
+    .subtitlesHomepage {
+        font-size: 1.2rem; /* Ajusta o tamanho dos subtítulos */
+    }
+
+    .TransparentBlackButton-component {
+        padding: 8px 5%; /* Ajusta o padding do botão */
+        font-size: 1rem; /* Ajusta o tamanho do texto do botão */
+    }
+
+    .itensHomepage {
+        padding: 0 10px; /* Adiciona padding lateral em telas pequenas */
+    }
+
+    .iconHomepage {
+        font-size: 1.5rem; /* Ajusta o tamanho do ícone */
     }
 }

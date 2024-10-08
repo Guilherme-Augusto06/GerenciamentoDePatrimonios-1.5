@@ -101,38 +101,36 @@ main {
 }
 
 /* Media Queries para responsividade */
-@media (max-width: 768px) {
+
+@media (max-width: 676px) {
     .login-form {
-        padding: 15px;
+        padding: 5px;
+        max-width: 100%; /* Certifica-se de que o formulário ocupe toda a largura disponível */
     }
 
-    .title-h1 {
-        width: 136px;
-        height: 59px;
-    }
-
-    .input-login {
-        height: 40px;
-    }
-
-    .btn-login {
-        height: 50px;
-        font-size: 22px;
-    }
-}
-
-@media (max-width: 480px) {
-    .title-h1 {
-        width: 106px;
-        height: 49px;
+    .titleLogin {
+        font-size: 14px; /* Diminui o título para caber na tela */
     }
 
     .input-login {
-        height: 38px;
+        height: 20px; /* Reduz a altura dos inputs */
+        font-size: 10px; /* Ajusta o tamanho da fonte nos campos de entrada */
     }
 
     .btn-login {
-        height: 45px;
-        font-size: 20px;
+        height: 30px; /* Reduz a altura do botão */
+        font-size: 10px; /* Diminui o texto do botão */
+    }
+
+    .input-group {
+        margin-bottom: 10px; /* Reduz o espaçamento entre os grupos de inputs */
+    }
+
+    .input-group label {
+        font-size: 8px; /* Diminui o tamanho da label */
+    }
+
+    .input-container {
+        margin-top: 2px; /* Ajusta o espaçamento entre a label e o input */
     }
 }
