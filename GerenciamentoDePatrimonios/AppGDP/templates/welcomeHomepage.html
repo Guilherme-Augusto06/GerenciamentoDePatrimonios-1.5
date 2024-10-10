@@ -9,9 +9,11 @@
         <div class="conteudo-cabecalho">
             <h1>Bem-vindo ao <span class="destaque"> <br> Patrimônios </span> & <span class="destaque">Ordem</span></h1>
             <p>Sua solução definitiva para gerenciar patrimônios de maneira eficiente e organizada.</p>
+            {% if is_coordenador %}
             <a href="{% url 'cadastroUsuario' %}">
                 <button class="botao-cadastro">Cadastre-se</button>
             </a>
+            {% endif %}
             
         </div>
         <div class="box">
@@ -22,49 +24,57 @@
     <section class="servicos">
         <h2>Serviços</h2>
         <div class="container-servicos">
+    
+            <!-- Card de Editar Patrimônios, visível apenas para Coordenadores -->
+            {% if is_coordenador %}
             <div class="cartao-servico">
                 <div class="div-cartao">
                     <span class="material-symbols-outlined"> edit_note </span>
                     <h3>Editar e Mover Patrimônios</h3>
                     <p>Soluções eficientes para controlar e monitorar seus ativos.</p>
                 </div>
-                <button class="button-view">
-                    Ver
-                </button>
+                <button class="button-view">Ver</button>
             </div>
-            <div class="cartao-servico">
-                <div class="div-cartao">
-                    <span class="material-symbols-outlined"> engineering </span>
-                    <h3>Adicionar a lista de manutenção do patrimônio</h3>
-                    <p>Proteção máxima para o seu patrimônio com tecnologia de ponta.</p>
-                </div>
-                <button class="button-view">
-                    Ver
-                </button>
-            </div>
+    
+            <!-- Card de Excluir Patrimônio -->
             <div class="cartao-servico">
                 <div class="div-cartao">
                     <span class="material-symbols-outlined"> flaky </span>
                     <h3>Adicionar & Excluir um patrimônio</h3>
                     <p>Relatórios completos para a melhor tomada de decisões.</p>
                 </div>
-                <button class="button-view">
-                    Ver
-                </button>
+                <button class="button-view">Ver</button>
             </div>
+            {% endif %}
+    
+            <!-- Card de Adicionar à lista de manutenção, visível para Coordenadores e Professores -->
+            {% if is_coordenador or is_professor %}
+            <div class="cartao-servico">
+                <div class="div-cartao">
+                    <span class="material-symbols-outlined"> engineering </span>
+                    <h3>Adicionar à lista de manutenção do patrimônio</h3>
+                    <p>Proteção máxima para o seu patrimônio com tecnologia de ponta.</p>
+                </div>
+                <button class="button-view">Ver</button>
+            </div>
+            {% endif %}
+    
+            <!-- Card de Ver Tabela de Patrimônios, visível para todos -->
+            {% if is_coordenador or is_professor %}
             <div class="cartao-servico">
                 <div class="div-cartao">
                     <span class="material-symbols-outlined"> data_table </span>
                     <h3>Ver Tabela de Patrimônios</h3>
                     <p>Assistência contínua para garantir a tranquilidade da sua operação.</p>
                 </div>
-                <button class="button-view">
-                    Ver
-                </button>
+                <button class="button-view">Ver</button>
             </div>
+            {% endif %}
+    
         </div>
     </section>
-
+    
+    {% if is_coordenador %}
     <section class="salas-section">
         <div class="Salas">
             <div class="Salas-text">
@@ -72,6 +82,7 @@
             </div>
         </div>
     </section>
+    
     <section class="grid-container">
         {% for item in sala %}
         <div class="item-card-w">
@@ -81,14 +92,14 @@
             </div>
             <div class="item-info">
                 <h3>{{ item.sala }}</h3>
-
                 <p>{{ item.descricao }}</p>
                 <p>Localizado na {{ item.localizacao }}</p>
             </div>
         </div>
         {% endfor %}
     </section>
-    
+{% endif %}
+
     
 </div>
 

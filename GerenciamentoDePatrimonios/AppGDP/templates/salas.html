@@ -39,7 +39,7 @@
             <div class="inf">
                 <h3>{{ item.sala }}</h3>
                 <p>Localização: {{ item.localizacao }}</p>
-                <button class="but-sala">Visualizar Sala</button>
+                <button class="but-sala" onclick="event.stopPropagation(); openSala('{{ item.sala }}')">Visualizar Sala</button>
             </div>
         </div>
         {% endfor %}
@@ -280,6 +280,11 @@
                 console.error("Erro:", error);
             });
         });
+
+        function openSala(sala) {
+            // Código para abrir ou exibir informações da sala
+            console.log("Sala visualizada:", sala);
+        }
     </script>
 
 </main>

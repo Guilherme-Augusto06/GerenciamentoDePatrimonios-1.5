@@ -370,6 +370,7 @@
     }
 }
 
+
 @media (max-width: 768px) {
     .grid-container {
         grid-template-columns: 1fr;

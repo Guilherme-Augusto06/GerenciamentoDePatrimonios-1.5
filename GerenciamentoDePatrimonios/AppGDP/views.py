@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 
+
 # Create your views here.
 
 def homepage(request):
@@ -28,10 +29,16 @@ def profile(request):
 def faq(request):
     return render(request, 'faq.html')
 
+from django.contrib.auth.models import Group
+
 @login_required
 def welcomeHomepage(request):
     sala = Sala.objects.all()
     sala_especifica = sala.first()
+    
+    # Verificar se o usuário pertence ao grupo 'Coordenador' ou 'Professor'
+    is_coordenador = request.user.groups.filter(name="Coordenador").exists()
+    is_professor = request.user.groups.filter(name="Professor").exists()
 
     if request.method == 'POST':
         form = SalaForm(request.POST)
@@ -43,7 +50,14 @@ def welcomeHomepage(request):
 
     sala = Sala.objects.all()
 
-    return render(request, 'welcomeHomepage.html', {'form': form, 'sala': sala, 'sala_especifica': sala_especifica})
+    return render(request, 'welcomeHomepage.html', {
+        'form': form, 
+        'sala': sala, 
+        'sala_especifica': sala_especifica,
+        'is_coordenador': is_coordenador,  # Passa a informação se é coordenador
+        'is_professor': is_professor,  # Passa a informação se é professor
+    })
+
 
 # Importar o modelo de itens (substitua Item pelo nome correto do seu modelo)
 

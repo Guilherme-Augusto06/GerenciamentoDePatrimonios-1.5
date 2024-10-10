@@ -119,11 +119,8 @@
     display: flex;
 }
 
-@media (max-width: 480px){
-    .titleHomepage {
-        text-align: center;
-        flex-wrap: wrap;
-
+@media (max-width: 850px){
+    .itens-component{
+        flex-direction: column;
     }
-
 }
