@@ -9,7 +9,10 @@
         <div class="conteudo-cabecalho">
             <h1>Bem-vindo ao <span class="destaque"> <br> Patrimônios </span> & <span class="destaque">Ordem</span></h1>
             <p>Sua solução definitiva para gerenciar patrimônios de maneira eficiente e organizada.</p>
-            <button class="botao-cadastro">Cadastre-se</button>
+            <a href="{% url 'cadastroUsuario' %}">
+                <button class="botao-cadastro">Cadastre-se</button>
+            </a>
+            
         </div>
         <div class="box">
             <img src="{% static 'img/icon1.png' %}" alt="">

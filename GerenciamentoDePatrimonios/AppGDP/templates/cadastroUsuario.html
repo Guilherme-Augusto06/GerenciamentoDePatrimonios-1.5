@@ -3,6 +3,7 @@
 
 {% block body %}
 {% include "navbarAutenticado.html" %}
+
 <main class="bg-body-l-w">
     <form class="login-form" method="POST" action="{% url 'cadastroUsuario' %}">
         {% csrf_token %}
@@ -40,6 +41,13 @@
             <label for="id_password"><b>Senha</b></label>
             <div class="input-container">
                 {{ form.password }}
+            </div>
+        </div>
+
+        <div class="input-group ig1">
+            <label for="id_group"><b>Grupo</b></label>
+            <div class="input-container">
+                {{ form.group }}
             </div>
         </div>
 

@@ -4,12 +4,14 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from .forms import FormLogin, formCadastroUsuario, InventarioForm, SalaForm
 from .models import Senai
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from .models import Inventario, Sala
 from django.core.cache import cache
 from django.http import HttpResponse
 from .models import Inventario
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
@@ -26,7 +28,7 @@ def profile(request):
 def faq(request):
     return render(request, 'faq.html')
 
-
+@login_required
 def welcomeHomepage(request):
     sala = Sala.objects.all()
     sala_especifica = sala.first()
@@ -47,7 +49,7 @@ def welcomeHomepage(request):
 
 
 #---------------------------- CRUD DE SALAS ----------------------------
-
+@login_required
 def adicionar_salas(request):
     if request.method == 'POST':
         form = SalaForm(request.POST)
@@ -60,7 +62,7 @@ def adicionar_salas(request):
     sala = Sala.objects.all()
     
     return render(request, 'welcomeHomepage.html', {'form': form, 'sala': sala})
-
+@login_required
 def update_sala(request):
     if request.method == 'POST':
         sala = request.POST.get('sala')
@@ -80,7 +82,7 @@ def update_sala(request):
         return redirect('salas')  
 
     return HttpResponse("Método não permitido.", status=405)
-
+@login_required
 def excluir_sala(request):
     if request.method == 'POST':
         sala = request.POST.get('sala')
@@ -93,7 +95,7 @@ def excluir_sala(request):
         except Sala.DoesNotExist:
             return HttpResponse("Sala não encontrada.", status=404)
 
-
+@login_required
 def salas(request):
     sala = Sala.objects.all()
     sala_especifica = sala.first()  # ou qualquer outro critério para escolher a sala
@@ -111,11 +113,12 @@ def salas(request):
 
 
 #---------------------------- LOGIN E CADASTRO DE USUÁRIO ----------------------------
-
+@login_required
 def cadastroUsuario(request):
     context = {}
     dadosSenai = Senai.objects.all()
     context["dadosSenai"] = dadosSenai
+    
     if request.method == 'POST':
         form = formCadastroUsuario(request.POST)
         if form.is_valid():
@@ -124,17 +127,25 @@ def cadastroUsuario(request):
             var_usuario = form.cleaned_data['user']
             var_email = form.cleaned_data['email']
             var_senha = form.cleaned_data['password']
+            var_grupo = form.cleaned_data['group']  # Captura o grupo selecionado
 
+            # Cria o usuário
             user = User.objects.create_user(username=var_usuario, email=var_email, password=var_senha)
             user.first_name = var_nome
             user.last_name = var_sobrenome
             user.save()
-            return redirect('/login')
+
+            # Atribui o usuário ao grupo selecionado
+            grupo = Group.objects.get(name=var_grupo)
+            user.groups.add(grupo)
+
+            return redirect('/welcomeHomepage')
             print('Cadastro realizado com sucesso')
     else:
         form = formCadastroUsuario()
         context['form'] = form
         print('Cadastro falhou')
+    
     return render(request, 'cadastroUsuario.html', context)
 
 def login(request):
@@ -162,7 +173,7 @@ def login(request):
     
 
 #---------------------------- CRUD DE INVENTÁRIO ----------------------------
-
+@login_required
 def itens(request):
     inventario = Inventario.objects.all()
     item_especifico = inventario.first()  # ou qualquer outro critério para escolher o item
@@ -177,7 +188,7 @@ def itens(request):
         form = InventarioForm()
     
     return render(request, 'itens.html', {'form': form, 'inventario': inventario, 'item_especifico': item_especifico})
-
+@login_required
 def adicionar_inventario(request):
     if request.method == 'POST':
         form = InventarioForm(request.POST)
@@ -191,7 +202,7 @@ def adicionar_inventario(request):
     inventario = Inventario.objects.all()
     
     return render(request, 'itens.html', {'form': form, 'inventario': inventario})
-
+@login_required
 def buscar_itens(request):
     context = {}
     query = request.GET.get('q')  # Pega o valor do campo de busca
@@ -222,7 +233,7 @@ def buscar_itens(request):
 
 
 
-
+@login_required
 def update_item(request):
     if request.method == 'POST':
         num_inventario = request.POST.get('numInventario')
@@ -238,10 +249,10 @@ def update_item(request):
         item.save()
 
         # Redireciona de volta à página de itens ou para onde você quiser
-        return redirect('salas')  
+        return redirect('itens')  
 
     return HttpResponse("Método não permitido.", status=405)
-
+@login_required
 def excluir_inventario(request):
     if request.method == 'POST':
         num_inventario = request.POST.get('numInventario')

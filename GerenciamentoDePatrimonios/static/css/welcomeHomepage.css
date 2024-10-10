@@ -95,7 +95,7 @@
 
 
 
-/* Seção de Serviços */
+
 /* Seção de Serviços */
 .servicos {
     background-color: var(--bg-color);
@@ -395,17 +395,20 @@
 }
 
 /* Ajustar largura da imagem no header em telas menores */
-@media (max-width: 767px) {
+@media (max-width: 400px) {
     .conteudo-cabecalho {
         max-width: 100%; /* Ajuste para telas menores */
         text-align: center;
         flex-direction: column; /* Flex para empilhar verticalmente */
+        
     }
     
     .cabecalho-welcome {
         flex-direction: column; /* Empilhar conteúdo verticalmente */
         padding: 30px 20px;
-        text-align: center; /* Centralizar o texto */
+        text-align: center; 
+        display: flex;
+
     }
 
     .image-container img {
@@ -442,5 +445,13 @@
     .botao-sala {
         width: 50px; /* Ajustar largura do botão */
         height: 50px; /* Ajustar altura do botão */
+    }
+}
+@media (max-width: 480px){
+    .titleHomepage {
+        text-align: center;
+        flex-wrap: wrap;
+        
+    
     }
 }
