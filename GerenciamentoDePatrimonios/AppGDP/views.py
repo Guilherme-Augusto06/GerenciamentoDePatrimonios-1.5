@@ -65,8 +65,11 @@ def welcomeHomepage(request):
 #---------------------------- CRUD DE SALAS ----------------------------
 @login_required
 def buscar_salas(request):
+    context = {}
     query = request.GET.get('q')
     ordem = request.GET.get('ordem')
+    is_coordenador = request.user.groups.filter(name="Coordenador").exists()
+    is_professor = request.user.groups.filter(name="Professor").exists()
 
     sala = Sala.objects.all()
 
@@ -76,15 +79,25 @@ def buscar_salas(request):
     if ordem:
         sala = sala.order_by('sala' if ordem == 'A-Z' else '-sala')
 
-    return render(request, 'salas.html', {'sala': sala, 'form': SalaForm()})
+    context['sala'] = sala
+    form = SalaForm()
+    context['form'] = form
+    context['is_coordenador'] = is_coordenador
+    context['is_professor'] = is_professor
+
+    return render(request, 'salas.html', context)
+
 
 
 
 @login_required
 def buscar_itens_sala(request):
+    context = {}
     query = request.GET.get('q')  
     ordem = request.GET.get('ordem')  
-    sala = request.GET.get('sala')  
+    sala = request.GET.get('sala') 
+    is_coordenador = request.user.groups.filter(name="Coordenador").exists()
+    is_professor = request.user.groups.filter(name="Professor").exists() 
 
     inventario = Inventario.objects.all()
 
@@ -97,7 +110,13 @@ def buscar_itens_sala(request):
     if sala:
         inventario = inventario.filter(sala__icontains=sala)
 
-    return render(request, 'itens.html', {'inventario': inventario, 'form': InventarioForm()})
+    context['inventario'] = inventario
+    form = InventarioForm()
+    context['form'] = form
+    context['is_coordenador'] = is_coordenador
+    context['is_professor'] = is_professor
+
+    return render(request, 'itens.html', context)
 
 @login_required
 def adicionar_salas(request):
@@ -263,6 +282,8 @@ def buscar_itens(request):
     query = request.GET.get('q')  # Pega o valor do campo de busca
     ordem = request.GET.get('ordem')  # Pega o valor da ordem A-Z ou Z-A
     sala = request.GET.get('sala')  # Pega o valor da sala
+    is_coordenador = request.user.groups.filter(name="Coordenador").exists()
+    is_professor = request.user.groups.filter(name="Professor").exists()
 
     inventario = Inventario.objects.all()
 
@@ -281,6 +302,8 @@ def buscar_itens(request):
     context['inventario'] = inventario
     form = InventarioForm()
     context['form'] = form
+    context['is_coordenador'] = is_coordenador
+    context['is_professor'] = is_professor
     
     return render(request, 'itens.html', context)
 

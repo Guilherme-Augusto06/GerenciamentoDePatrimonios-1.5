@@ -48,7 +48,9 @@
 <!-- Modal de Visualização do Item -->
 <div id="modalItem" class="modal">
     <div class="modal-content">
-        <button type="button" class="btn-close" onclick="closeModal('modalItem')"></button>
+        <button type="button" class="btn-close" onclick="closeModal('modalItem')"><span class="material-symbols-outlined">
+            close
+            </span></button>
         <h2 class="adicionarH2Itens">Informações</h2>
         <form id="itemForm" method="POST" action="{% url 'update_item' %}">
             {% csrf_token %}
@@ -76,7 +78,7 @@
                 {% if is_coordenador %}
                 <button type="button" id="editButton" class="editButton" onclick="enableEdit()">Editar</button>
                 <button type="submit" id="saveButton" class="editButton" style="display:none;">Salvar</button>
-                <button type="button" class="btn-close" onclick="closeModal('modalItem')">X</button>
+                <button type="button" class="btn-close" onclick="closeModal('modalItem')"></button>
                 <button type="button" class="btn-delete" onclick="confirmDelete()">Excluir</button>
                 {% endif %}
             </div>
@@ -93,7 +95,9 @@
     <!-- Modal de Adicionar Item -->
     <div id="modalAddItem" class="modal">
         <div class="modal-content">
-            <button type="button" class="btn-close" onclick="closeModal('modalAddItem')"></button>
+            <button type="button" class="btn-close" onclick="closeModal('modalAddItem')"><span class="material-symbols-outlined">
+                close
+                </span></button>
             <h2 class="adicionarH2Itens">Adicionar Item</h2>
             <form id="addItemForm" method="POST" action="{% url 'adicionar_inventario' %}">
                 {% csrf_token %}

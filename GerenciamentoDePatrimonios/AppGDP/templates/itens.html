@@ -53,7 +53,9 @@
 
     <div id="modalItem" class="modal">
         <div class="modal-content">
-            <button type="button" class="btn-close" onclick="closeModal('modalItem')"></button>
+            <button type="button" class="btn-close" onclick="closeModal('modalItem')"><span class="material-symbols-outlined">
+                close
+                </span></button>
             <h2 class="adicionarH2Itens">Informações</h2>
             <form id="itemForm" method="POST" action="{% url 'update_item' %}">
                 {% csrf_token %}
@@ -88,7 +90,9 @@
     <!-- Modal de Filtros -->
     <div id="modalFiltro" class="modal">
         <div class="modal-content">
-            <button type="button" class="btn-close" onclick="closeModal('modalFiltro')"></button>
+            <button type="button" class="btn-close" onclick="closeModal('modalFiltro')"><span class="material-symbols-outlined">
+                close
+                </span></button>
             <h2>Filtrar Itens</h2>
 
             <!-- Filtro por Ordem Alfabética -->
@@ -115,7 +119,9 @@
     <!-- Modal de Adicionar Item -->
     <div id="modalAddItem" class="modal">
         <div class="modal-content">
-            <button type="button" class="btn-close" onclick="closeModal('modalAddItem')"></button>
+            <button type="button" class="btn-close" onclick="closeModal('modalAddItem')"><span class="material-symbols-outlined">
+                close
+                </span></button>
             <h2 class="adicionarH2Itens">Adicionar Item</h2>
             <form id="addItemForm" method="POST" action="{% url 'adicionar_inventario' %}">
                 {% csrf_token %}
