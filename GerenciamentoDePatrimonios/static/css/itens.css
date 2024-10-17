@@ -40,13 +40,23 @@
     height: 40px;
 }
 
+
+.allItensContainerSearch {
+    position: sticky;
+    padding: 10px;
+
+}
+
 /* Container de Busca e Adição de Itens */
 .search-container {
     display: flex;
     align-items: center; /* Alinha verticalmente os itens */
     gap: 10px; /* Espaço entre os elementos */
-    padding: 50px
+    
+
+    
 }
+
 .search-container input.input-itens {
     padding: 10px;
     border: 2px solid #ccc;

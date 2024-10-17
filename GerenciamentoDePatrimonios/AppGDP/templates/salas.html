@@ -16,11 +16,12 @@
                 <input class="input-itens" type="text" name="q" id="searchInput" placeholder="Buscar por sala">
             </div>
         </form>
-
+        {% if is_coordenador %}
         <button class="add-button" onclick="openModal('modalAddItem')">
             <span class="material-symbols-outlined" id="iconItens">add_circle</span>
             <p class="add-text">Adicionar</p>
         </button>
+        {% endif %}
     </div>
 
     <div class="items-container">
@@ -69,12 +70,15 @@
 
             <label for="quantidadeItensInput">Quantidade de Itens:</label>
             <input type="number" id="quantidadeItensInput" name="quantidade_itens" value="" readonly>
-
+            
+            
             <div class="modal-actions">
+                {% if is_coordenador %}
                 <button type="button" id="editButton" class="editButton" onclick="enableEdit()">Editar</button>
                 <button type="submit" id="saveButton" class="editButton" style="display:none;">Salvar</button>
                 <button type="button" class="btn-close" onclick="closeModal('modalItem')">X</button>
                 <button type="button" class="btn-delete" onclick="confirmDelete()">Excluir</button>
+                {% endif %}
             </div>
         </form>
     </div>

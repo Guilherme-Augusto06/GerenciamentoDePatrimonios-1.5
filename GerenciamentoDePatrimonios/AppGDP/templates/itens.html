@@ -6,27 +6,29 @@
 
 <main class="bg-body-i-w">
 
+    <div class="allItensContainerSearch">
+        <div class="search-container">
+            <form id="searchForm" method="GET" action="{% url 'buscar_itens' %}">
+                <div class="search-container">
+                    <button type="submit">
+                        <span class="material-symbols-outlined" id="iconItens">search</span>
+                    </button>
+                    <input class="input-itens" type="text" name="q" id="searchInput"
+                        placeholder="Buscar por número de inventário...">
+                </div>
+            </form>
 
-    <div class="search-container">
-        <form id="searchForm" method="GET" action="{% url 'buscar_itens' %}">
-            <div class="search-container">
-                <button type="submit">
-                    <span class="material-symbols-outlined" id="iconItens">search</span>
-                </button>
-                <input class="input-itens" type="text" name="q" id="searchInput"
-                    placeholder="Buscar por número de inventário...">
-            </div>
-        </form>
+            <button onclick="openModal('modalFiltro')">
+                <span class="material-symbols-outlined" id="iconItens">filter_list</span>
+            </button>
 
-        <button onclick="openModal('modalFiltro')">
-            <span class="material-symbols-outlined" id="iconItens">filter_list</span>
-        </button>
-
-
-        <button class="add-button" onclick="openModal('modalAddItem')">
-            <span class="material-symbols-outlined" id="iconItens">add_circle</span>
-            <p class="add-text">Adicionar</p>
-        </button>
+            {% if is_coordenador %}
+            <button class="add-button" onclick="openModal('modalAddItem')">
+                <span class="material-symbols-outlined" id="iconItens">add_circle</span>
+                <p class="add-text">Adicionar</p>
+            </button>
+            {% endif %}
+        </div>
     </div>
 
     <div class="items-container">
@@ -48,6 +50,7 @@
 
     <!-- Modal de Visualização do Item -->
     <!-- Modal de Visualização do Item -->
+
     <div id="modalItem" class="modal">
         <div class="modal-content">
             <button type="button" class="btn-close" onclick="closeModal('modalItem')">X</button>
@@ -68,13 +71,14 @@
 
                 <label for="imagemInput">Imagem:</label>
                 <input type="text" id="imagemInput" name="imagem" value="" readonly>
-
+                {% if is_coordenador %}
                 <div class="modal-actions">
                     <button type="button" id="editButton" class="editButton" onclick="enableEdit()">Editar</button>
                     <button type="submit" id="saveButton" class="editButton" style="display:none;">Salvar</button>
                     <button type="button" class="btn-close" onclick="closeModal('modalItem')">X</button>
                     <button type="button" class="btn-delete" onclick="confirmDelete()">Excluir</button>
                 </div>
+                {% endif %}
             </form>
         </div>
     </div>

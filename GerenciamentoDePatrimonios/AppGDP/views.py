@@ -72,7 +72,7 @@ def buscar_salas(request):
 
     if query:
         sala = sala.filter(sala__icontains=query)
-
+    
     if ordem:
         sala = sala.order_by('sala' if ordem == 'A-Z' else '-sala')
 
@@ -147,6 +147,8 @@ def excluir_sala(request):
 
 @login_required
 def salas(request):
+    is_coordenador = request.user.groups.filter(name="Coordenador").exists()
+    is_professor = request.user.groups.filter(name="Professor").exists()
     sala = Sala.objects.all()
     sala_especifica = sala.first()  # ou qualquer outro critério para escolher a sala
 
@@ -158,7 +160,7 @@ def salas(request):
     else:
         form = SalaForm()
     
-    return render(request, 'salas.html', {'form': form, 'sala': sala, 'sala_especifica': sala_especifica})
+    return render(request, 'salas.html', {'form': form, 'sala': sala, 'sala_especifica': sala_especifica, 'is_coordenador': is_coordenador, 'is_professor': is_professor})
 
 
 
@@ -227,7 +229,8 @@ def login(request):
 def itens(request):
     inventario = Inventario.objects.all()
     item_especifico = inventario.first()  # ou qualquer outro critério para escolher o item
-
+    is_coordenador = request.user.groups.filter(name="Coordenador").exists()
+    is_professor = request.user.groups.filter(name="Professor").exists()
    
     if request.method == 'POST':
         form = InventarioForm(request.POST)
@@ -237,7 +240,7 @@ def itens(request):
     else:
         form = InventarioForm()
     
-    return render(request, 'itens.html', {'form': form, 'inventario': inventario, 'item_especifico': item_especifico})
+    return render(request, 'itens.html', {'form': form, 'inventario': inventario, 'item_especifico': item_especifico, 'is_coordenador': is_coordenador, 'is_professor': is_professor})
 
 @login_required
 def adicionar_inventario(request):
