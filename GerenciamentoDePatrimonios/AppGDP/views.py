@@ -64,6 +64,42 @@ def welcomeHomepage(request):
 
 #---------------------------- CRUD DE SALAS ----------------------------
 @login_required
+def buscar_salas(request):
+    query = request.GET.get('q')
+    ordem = request.GET.get('ordem')
+
+    sala = Sala.objects.all()
+
+    if query:
+        sala = sala.filter(sala__icontains=query)
+
+    if ordem:
+        sala = sala.order_by('sala' if ordem == 'A-Z' else '-sala')
+
+    return render(request, 'salas.html', {'sala': sala, 'form': SalaForm()})
+
+
+
+@login_required
+def buscar_itens_sala(request):
+    query = request.GET.get('q')  
+    ordem = request.GET.get('ordem')  
+    sala = request.GET.get('sala')  
+
+    inventario = Inventario.objects.all()
+
+    if query:
+        inventario = inventario.filter(num_inventario__icontains=query)
+    
+    if ordem:
+        inventario = inventario.order_by('denominacao' if ordem == 'A-Z' else '-denominacao')
+
+    if sala:
+        inventario = inventario.filter(sala__icontains=sala)
+
+    return render(request, 'itens.html', {'inventario': inventario, 'form': InventarioForm()})
+
+@login_required
 def adicionar_salas(request):
     if request.method == 'POST':
         form = SalaForm(request.POST)
@@ -202,6 +238,7 @@ def itens(request):
         form = InventarioForm()
     
     return render(request, 'itens.html', {'form': form, 'inventario': inventario, 'item_especifico': item_especifico})
+
 @login_required
 def adicionar_inventario(request):
     if request.method == 'POST':
@@ -216,6 +253,7 @@ def adicionar_inventario(request):
     inventario = Inventario.objects.all()
     
     return render(request, 'itens.html', {'form': form, 'inventario': inventario})
+
 @login_required
 def buscar_itens(request):
     context = {}

@@ -13,14 +13,15 @@
                 <button type="submit">
                     <span class="material-symbols-outlined" id="iconItens">search</span>
                 </button>
-                <input class="input-itens" type="text" name="q" id="searchInput" placeholder="Buscar por número de inventário..."> 
+                <input class="input-itens" type="text" name="q" id="searchInput"
+                    placeholder="Buscar por número de inventário...">
             </div>
         </form>
 
         <button onclick="openModal('modalFiltro')">
             <span class="material-symbols-outlined" id="iconItens">filter_list</span>
         </button>
-        
+
 
         <button class="add-button" onclick="openModal('modalAddItem')">
             <span class="material-symbols-outlined" id="iconItens">add_circle</span>
@@ -30,7 +31,8 @@
 
     <div class="items-container">
         {% for item in inventario %}
-        <div class="item-card" onclick="openItemModal('{{ item.denominacao }}', '{{ item.num_inventario }}', '{{ item.link_imagem }}', '{{ item.localizacao }}', '{{ item.sala }}')">
+        <div class="item-card"
+            onclick="openItemModal('{{ item.denominacao }}', '{{ item.num_inventario }}', '{{ item.link_imagem }}', '{{ item.localizacao }}', '{{ item.sala }}')">
             <div class="bg-img">
                 <img src="{{ item.link_imagem }}" alt="{{ item.denominacao }}">
             </div>
@@ -42,65 +44,65 @@
         {% endfor %}
     </div>
     <!-- Modal de excluir -->
-     
+
 
     <!-- Modal de Visualização do Item -->
-<!-- Modal de Visualização do Item -->
-<div id="modalItem" class="modal">
-    <div class="modal-content">
-        <button type="button" class="btn-close" onclick="closeModal('modalItem')">X</button>
-        <h2 class="adicionarH2Itens">Informações</h2>
-        <form id="itemForm" method="POST" action="{% url 'update_item' %}">
-            {% csrf_token %}
-            <label for="denominacaoInput">Denominação:</label>
-            <input type="text" id="denominacaoInput" name="denominacao" value="" readonly>
+    <!-- Modal de Visualização do Item -->
+    <div id="modalItem" class="modal">
+        <div class="modal-content">
+            <button type="button" class="btn-close" onclick="closeModal('modalItem')">X</button>
+            <h2 class="adicionarH2Itens">Informações</h2>
+            <form id="itemForm" method="POST" action="{% url 'update_item' %}">
+                {% csrf_token %}
+                <label for="denominacaoInput">Denominação:</label>
+                <input type="text" id="denominacaoInput" name="denominacao" value="" readonly>
 
-            <label for="numInventarioInput">Número de Inventário:</label>
-            <input type="text" id="numInventarioInput" name="numInventario" value="" readonly>
-            
-            <label for="localizacaoInput">Localização: </label>
-            <input type="text" id="localizacaoInput" name="localizacao" value="" readonly>
+                <label for="numInventarioInput">Número de Inventário:</label>
+                <input type="text" id="numInventarioInput" name="numInventario" value="" readonly>
 
-            <label for="salaInput">Sala:</label>
-            <input type="text" id="salaInput" name="sala" value="" readonly>
+                <label for="localizacaoInput">Localização: </label>
+                <input type="text" id="localizacaoInput" name="localizacao" value="" readonly>
 
-            <label for="imagemInput">Imagem:</label>
-            <input type="text" id="imagemInput" name="imagem" value="" readonly>
+                <label for="salaInput">Sala:</label>
+                <input type="text" id="salaInput" name="sala" value="" readonly>
 
-            <div class="modal-actions">
-                <button type="button" id="editButton" class="editButton" onclick="enableEdit()">Editar</button>
-                <button type="submit" id="saveButton" class="editButton" style="display:none;">Salvar</button>
-                <button type="button" class="btn-close" onclick="closeModal('modalItem')">X</button>
-                <button type="button" class="btn-delete" onclick="confirmDelete()">Excluir</button>
-            </div>
-        </form>
+                <label for="imagemInput">Imagem:</label>
+                <input type="text" id="imagemInput" name="imagem" value="" readonly>
+
+                <div class="modal-actions">
+                    <button type="button" id="editButton" class="editButton" onclick="enableEdit()">Editar</button>
+                    <button type="submit" id="saveButton" class="editButton" style="display:none;">Salvar</button>
+                    <button type="button" class="btn-close" onclick="closeModal('modalItem')">X</button>
+                    <button type="button" class="btn-delete" onclick="confirmDelete()">Excluir</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<!-- Modal de Filtros -->
-<div id="modalFiltro" class="modal">
-    <div class="modal-content">
-        <button type="button" class="btn-close" onclick="closeModal('modalFiltro')">X</button>
-        <h2>Filtrar Itens</h2>
-        
-        <!-- Filtro por Ordem Alfabética -->
-        <form id="filtroAlfabeticoForm" method="GET" action="{% url 'buscar_itens' %}">
-            <label for="ordem">Ordenar por:</label>
-            <select name="ordem" id="ordem">
-                <option value="A-Z">A-Z</option>
-                <option value="Z-A">Z-A</option>
-            </select>
-            <button type="submit">Aplicar</button>
-        </form>
+    <!-- Modal de Filtros -->
+    <div id="modalFiltro" class="modal">
+        <div class="modal-content">
+            <button type="button" class="btn-close" onclick="closeModal('modalFiltro')">X</button>
+            <h2>Filtrar Itens</h2>
 
-        <!-- Filtro por Sala -->
-        <form id="filtroSalaForm" method="GET" action="{% url 'buscar_itens' %}">
-            <label for="sala">Filtrar por Sala:</label>
-            <input type="text" name="sala" id="sala" placeholder="Digite o nome da sala">
-            <button type="submit">Aplicar</button>
-        </form>
+            <!-- Filtro por Ordem Alfabética -->
+            <form id="filtroAlfabeticoForm" method="GET" action="{% url 'buscar_itens' %}">
+                <label for="ordem">Ordenar por:</label>
+                <select name="ordem" id="ordem">
+                    <option value="A-Z">A-Z</option>
+                    <option value="Z-A">Z-A</option>
+                </select>
+                <button type="submit">Aplicar</button>
+            </form>
+
+            <!-- Filtro por Sala -->
+            <form id="filtroSalaForm" method="GET" action="{% url 'buscar_itens' %}">
+                <label for="sala">Filtrar por Sala:</label>
+                <input type="text" name="sala" id="sala" placeholder="Digite o nome da sala">
+                <button type="submit">Aplicar</button>
+            </form>
+        </div>
     </div>
-</div>
 
 
 
@@ -150,7 +152,7 @@
             document.getElementById("localizacaoInput").removeAttribute("readonly");
             document.getElementById("salaInput").removeAttribute("readonly");
             document.getElementById("imagemInput").removeAttribute("readonly");
-            
+
             // Exibe o botão de salvar e oculta o botão de editar
             document.getElementById("editButton").style.display = "none";
             document.getElementById("saveButton").style.display = "inline-block";
@@ -188,15 +190,15 @@
                 },
                 body: JSON.stringify(formData)
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Item atualizado com sucesso!');
-                } else {
-                    alert('Erro ao atualizar o item.');
-                }
-            })
-            .catch(error => console.error('Erro:', error));
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Item atualizado com sucesso!');
+                    } else {
+                        alert('Erro ao atualizar o item.');
+                    }
+                })
+                .catch(error => console.error('Erro:', error));
 
             // Alterna novamente os botões
             document.getElementById("editButton").style.display = "inline-block";
@@ -217,7 +219,7 @@
             document.getElementById('localizacaoInput').value = localizacao;
             document.getElementById('salaInput').value = sala
 
-            
+
             openModal('modalItem');
         }
 
@@ -244,7 +246,7 @@
             window.location.href = "{% url 'itens' %}";
         }
 
-        document.getElementById('addItemForm').addEventListener('submit', function(event) {
+        document.getElementById('addItemForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const formData = new FormData(this);
 
@@ -252,20 +254,19 @@
                 method: 'POST',
                 body: formData,
             })
-            .then(response => {
-                if (response.ok) {
-                    closeModal('modalAddItem');
-                    openConfirmation();
-                } else {
-                    alert("Erro ao adicionar o item.");
-                }
-            })
-            .catch(error => {
-                console.error("Erro:", error);
-            });
+                .then(response => {
+                    if (response.ok) {
+                        closeModal('modalAddItem');
+                        openConfirmation();
+                    } else {
+                        alert("Erro ao adicionar o item.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro:", error);
+                });
         });
     </script>
 
 </main>
 {% endblock %}
-

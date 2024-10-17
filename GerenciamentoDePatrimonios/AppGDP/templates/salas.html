@@ -7,22 +7,15 @@
 <main class="bg-body-i-w">
 
     
-    <h2>{{ item.sala }}</h2>
-
     <div class="search-container">
-        <form id="searchForm" method="GET" action="{% url 'buscar_itens' %}">
+        <form id="searchForm" method="GET" action="{% url 'buscar_salas' %}">
             <div class="search-container">
                 <button type="submit">
                     <span class="material-symbols-outlined" id="iconItens">search</span>
                 </button>
-                <input class="input-itens" type="text" name="q" id="searchInput" placeholder="Buscar por número de inventário..."> 
+                <input class="input-itens" type="text" name="q" id="searchInput" placeholder="Buscar por sala">
             </div>
         </form>
-
-        <button onclick="openModal('modalFiltro')">
-            <span class="material-symbols-outlined" id="iconItens">filter_list</span>
-        </button>
-        
 
         <button class="add-button" onclick="openModal('modalAddItem')">
             <span class="material-symbols-outlined" id="iconItens">add_circle</span>
@@ -39,7 +32,8 @@
             <div class="inf">
                 <h3>{{ item.sala }}</h3>
                 <p>Localização: {{ item.localizacao }}</p>
-                <button class="but-sala" onclick="event.stopPropagation(); openSala('{{ item.sala }}')">Visualizar Sala</button>
+                <button class="but-sala" onclick="event.stopPropagation(); redirecionarItensSala('{{ item.sala }}')">Visualizar Sala</button>
+
             </div>
         </div>
         {% endfor %}
@@ -89,29 +83,6 @@
 
 
 <!-- Modal de Filtros -->
-<div id="modalFiltro" class="modal">
-    <div class="modal-content">
-        <button type="button" class="btn-close" onclick="closeModal('modalFiltro')">X</button>
-        <h2>Filtrar Itens</h2>
-        
-        <!-- Filtro por Ordem Alfabética -->
-        <form id="filtroAlfabeticoForm" method="GET" action="{% url 'buscar_itens' %}">
-            <label for="ordem">Ordenar por:</label>
-            <select name="ordem" id="ordem">
-                <option value="A-Z">A-Z</option>
-                <option value="Z-A">Z-A</option>
-            </select>
-            <button type="submit">Aplicar</button>
-        </form>
-
-        <!-- Filtro por Sala -->
-        <form id="filtroSalaForm" method="GET" action="{% url 'buscar_itens' %}">
-            <label for="sala">Filtrar por Sala:</label>
-            <input type="text" name="sala" id="sala" placeholder="Digite o nome da sala">
-            <button type="submit">Aplicar</button>
-        </form>
-    </div>
-</div>
 
 
 
@@ -140,6 +111,12 @@
     </div>
 
     <script>
+        function redirecionarItensSala(sala) {
+            const url = new URL(window.location.origin + "{% url 'buscar_itens_sala' %}");
+            url.searchParams.set('sala', sala);  // Define o parâmetro 'sala'
+            window.location.href = url.toString();  // Redireciona para a URL
+        }
+
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
         }

@@ -48,6 +48,7 @@
 .cabecalho p {
     font-size: 15px;
     margin-bottom: 20px;
+
 }
 
 .botao-cadastro {
@@ -85,6 +86,7 @@
     .conteudo-cabecalho {
         max-width: 100%;
         text-align: center;
+        padding: 40px;
     }
 
     .box {
@@ -92,9 +94,6 @@
         margin-top: 100px;
     }
 }
-
-
-
 
 /* Seção de Serviços */
 .servicos {

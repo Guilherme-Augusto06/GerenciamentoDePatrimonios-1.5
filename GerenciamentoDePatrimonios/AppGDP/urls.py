@@ -18,6 +18,8 @@ urlpatterns = [
         path('update-sala/', views.update_sala, name='update_sala'),
         path('excluir-sala/', views.excluir_sala, name='excluir_sala'),
         path('adicionar-salas/', views.adicionar_salas, name='adicionar_salas'),
+        path('buscar-itens-sala', views.buscar_itens_sala, name='buscar_itens_sala'),
         path('salas', views.salas, name='salas'),
+        path('buscar-salas', views.buscar_salas, name='buscar_salas'),
 
 ]
