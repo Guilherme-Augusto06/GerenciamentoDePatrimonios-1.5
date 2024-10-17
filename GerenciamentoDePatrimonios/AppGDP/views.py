@@ -48,6 +48,7 @@ def welcomeHomepage(request):
     is_coordenador = request.user.groups.filter(name="Coordenador").exists()
     is_professor = request.user.groups.filter(name="Professor").exists()
 
+    
     if request.method == 'POST':
         form = SalaForm(request.POST)
         if form.is_valid():
@@ -57,6 +58,7 @@ def welcomeHomepage(request):
         form = SalaForm()
 
     sala = Sala.objects.all()
+    
 
     return render(request, 'welcomeHomepage.html', {
         'form': form, 

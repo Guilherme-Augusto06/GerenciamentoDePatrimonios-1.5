@@ -43,7 +43,9 @@
                     <h3>Adicionar & Excluir um patrimônio</h3>
                     <p>Relatórios completos para a melhor tomada de decisões.</p>
                 </div>
-                <button class="button-view">Ver</button>
+                <a href="itens">
+                    <button class="button-view">Ver</button>
+                </a>
             </div>
             {% endif %}
     
@@ -64,10 +66,12 @@
             <div class="cartao-servico">
                 <div class="div-cartao">
                     <span class="material-symbols-outlined"> data_table </span>
-                    <h3>Ver Tabela de Patrimônios</h3>
+                    <h3>Salas</h3>
                     <p>Assistência contínua para garantir a tranquilidade da sua operação.</p>
                 </div>
-                <button class="button-view">Ver</button>
+                <a href="salas">
+                    <button class="button-view">Ver</button>
+                </a>
             </div>
             {% endif %}
     
@@ -87,6 +91,7 @@
         {% for item in sala %}
         <div class="item-card-w">
             <div class="image-container">
+                
                 <img src="{{ item.link_imagem }}" alt="Imagem da Sala {{ item.sala }}">
                 <span class="badge">{{ item.quantidade_itens }}</span>
             </div>
