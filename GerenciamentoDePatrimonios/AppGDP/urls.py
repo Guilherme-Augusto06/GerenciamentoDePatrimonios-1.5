@@ -21,5 +21,6 @@ urlpatterns = [
         path('buscar-itens-sala', views.buscar_itens_sala, name='buscar_itens_sala'),
         path('salas', views.salas, name='salas'),
         path('buscar-salas', views.buscar_salas, name='buscar_salas'),
+        path('logout/', views.logout, name='logout'),
 
 ]

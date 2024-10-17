@@ -25,16 +25,17 @@
     </div>
 </nav>
 
-<!-- Modal de confirmação -->
-<div id="confirmLogoutModal" class="modal2">
+<!-- Modal de logout -->
+<div id="confirmLogoutModal" class="modal2" style="display: none;">
     <div class="modal-content2">
         <h3>Você realmente deseja sair?</h3>
         <div class="modal-buttons2">
-            <a href="/" class="modal-btn2 modal-confirm2">Desconectar</a>
+            <button class="modal-btn2 modal-confirm2" id="confirm-logout-btn">Desconectar</button>
             <button class="modal-btn2 modal-cancel2" id="cancel-btn">Cancelar</button>
         </div>
     </div>
 </div>
+
 
 <!-- CSS para a Modal -->
 <style>
@@ -127,6 +128,11 @@
 
 <!-- JavaScript para controlar a Modal -->
 <script>
+    // Executar o logout ao confirmar
+    document.getElementById("confirm-logout-btn").onclick = function () {
+        window.location.href = "/logout/";  // Ajuste a rota conforme necessário
+    };
+
     document.getElementById("logout-btn").addEventListener("click", function (event) {
         event.preventDefault();
         document.getElementById("confirmLogoutModal").style.display = "flex";

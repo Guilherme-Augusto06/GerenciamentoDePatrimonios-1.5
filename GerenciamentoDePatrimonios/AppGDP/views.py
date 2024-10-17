@@ -11,6 +11,7 @@ from django.http import HttpResponse
 from .models import Inventario
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout as auth_logout
 
 
 
@@ -30,6 +31,13 @@ def faq(request):
     return render(request, 'faq.html')
 
 from django.contrib.auth.models import Group
+
+
+#logouut 
+def logout(request):
+    auth_logout(request)
+    return redirect('login')
+
 
 @login_required
 def welcomeHomepage(request):
