@@ -34,7 +34,7 @@
     <div class="items-container">
         {% for item in inventario %}
         <div class="item-card"
-            onclick="openItemModal('{{ item.denominacao }}', '{{ item.num_inventario }}', '{{ item.link_imagem }}', '{{ item.localizacao }}', '{{ item.sala }}')">
+            onclick="openItemModal('{{ item.denominacao }}', '{{ item.num_inventario }}', '{{ item.link_imagem }}', '{{ item.localizacao }}', '{{ item.sala }}', '{{ item.responsavel }}')">
             <div class="bg-img">
                 <img src="{{ item.link_imagem }}" alt="{{ item.denominacao }}">
             </div>
@@ -72,6 +72,9 @@
 
                 <label for="imagemInput">Imagem:</label>
                 <input type="text" id="imagemInput" name="imagem" value="" readonly>
+
+                <label for="responsavelInput">Responsável:</label>
+                <input type="text" id="responsavelInput" name="responsavel" value="" readonly>
                 {% if is_coordenador %}
                 <div class="modal-actions">
                     <button type="button" id="editButton" class="editButton" onclick="enableEdit()">Editar</button>
@@ -163,6 +166,7 @@
             document.getElementById("localizacaoInput").removeAttribute("readonly");
             document.getElementById("salaInput").removeAttribute("readonly");
             document.getElementById("imagemInput").removeAttribute("readonly");
+            document.getElementById("responsavelInput").removeAttribute("readonly");
 
             // Exibe o botão de salvar e oculta o botão de editar
             document.getElementById("editButton").style.display = "none";
@@ -189,6 +193,7 @@
                 numInventario: document.getElementById("numInventarioInput").value,
                 localizacao: document.getElementById("localizacaoInput").value,
                 sala: document.getElementById("salaInput").value,
+                responsavel: document.getElementById("responsavelInput").value,
                 imagem: document.getElementById("imagemInput").value,
             };
 
@@ -220,15 +225,17 @@
             document.getElementById("numInventarioInput").setAttribute("readonly", true);
             document.getElementById("localizacaoInput").setAttribute("readonly", true);
             document.getElementById("salaInput").setAttribute("readonly", true);
+            document.getElementById("responsavelInput").setAttribute("readonly", true);
             document.getElementById("imagemInput").setAttribute("readonly", true);
         }
 
-        function openItemModal(denominacao, numInventario, linkImagem, localizacao, sala) {
+        function openItemModal(denominacao, numInventario, linkImagem, localizacao, sala, responsavel) {
             document.getElementById('denominacaoInput').value = denominacao;
             document.getElementById('numInventarioInput').value = numInventario;
             document.getElementById('imagemInput').value = linkImagem;
             document.getElementById('localizacaoInput').value = localizacao;
             document.getElementById('salaInput').value = sala
+            document.getElementById('responsavelInput').value = responsavel;
 
 
             openModal('modalItem');

@@ -48,7 +48,7 @@ def welcomeHomepage(request):
     # Filtra as salas de acordo com o grupo
     if is_coordenador:
         sala = Sala.objects.all()  # Coordenador vê todas as salas
-    elif is_professor:
+    elif is_professor:  
         sala = Sala.objects.filter(responsavel=request.user.username)  # Professor vê sua sala específica
     else:
         sala = []  # Usuário sem grupo relevante não vê nada
