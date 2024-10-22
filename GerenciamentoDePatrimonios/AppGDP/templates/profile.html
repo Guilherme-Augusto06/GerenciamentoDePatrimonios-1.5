@@ -4,53 +4,133 @@
 {% block body %}
 
 {% include "navbarAutenticado.html" %}
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
 <div class="Profile-Body">
     <div class="container-profile">
         <img src="{% static 'img/ProfileAvatar.png' %}" alt="Avatar" class="Avatar">
 
         <div class="sub-container-profile">
-            <div class="profile-item">
-                <label for="email">Email</label>
-                <input type="text" id="email" value="ga375464@gmail.com" disabled>
-                <div class="edit-icon">
-                    <svg width="60" height="61" viewBox="0 0 60 61" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect y="0.5" width="60" height="60" rx="30" fill="#B01818" />
-                        <path
-                            d="M17.1667 43.7222H19.7792L37.7 25.2583L35.0875 22.5667L17.1667 41.0306V43.7222ZM13.5 47.5V39.4722L37.7 14.5861C38.0667 14.2398 38.4715 13.9722 38.9146 13.7833C39.3576 13.5944 39.8236 13.5 40.3125 13.5C40.8014 13.5 41.275 13.5944 41.7333 13.7833C42.1917 13.9722 42.5889 14.2556 42.925 14.6333L45.4458 17.2778C45.8125 17.6241 46.0799 18.0333 46.2479 18.5056C46.416 18.9778 46.5 19.45 46.5 19.9222C46.5 20.4259 46.416 20.906 46.2479 21.3625C46.0799 21.819 45.8125 22.2361 45.4458 22.6139L21.2917 47.5H13.5ZM36.3708 23.9361L35.0875 22.5667L37.7 25.2583L36.3708 23.9361Z"
-                            fill="#E8EAED" />
-                    </svg>
+            <form method="POST" action="{% url 'profile' %}">
+                {% csrf_token %}
+                
+                <!-- Campo de Email -->
+                <div class="profile-item">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="{{ email }}" disabled required>
+                    <span class="material-icons edit-icon" id="edit-icons" style="color: white;" onclick="openModal('emailModal')">edit</span>
                 </div>
-            </div>
 
-            <div class="profile-item">
-                <label for="nome">Nome</label>
-                <input type="text" id="nome" value="Guilherme Augusto" disabled>
-                <div class="edit-icon">
-                    <svg width="60" height="61" viewBox="0 0 60 61" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect y="0.5" width="60" height="60" rx="30" fill="#B01818" />
-                        <path
-                            d="M17.1667 43.7222H19.7792L37.7 25.2583L35.0875 22.5667L17.1667 41.0306V43.7222ZM13.5 47.5V39.4722L37.7 14.5861C38.0667 14.2398 38.4715 13.9722 38.9146 13.7833C39.3576 13.5944 39.8236 13.5 40.3125 13.5C40.8014 13.5 41.275 13.5944 41.7333 13.7833C42.1917 13.9722 42.5889 14.2556 42.925 14.6333L45.4458 17.2778C45.8125 17.6241 46.0799 18.0333 46.2479 18.5056C46.416 18.9778 46.5 19.45 46.5 19.9222C46.5 20.4259 46.416 20.906 46.2479 21.3625C46.0799 21.819 45.8125 22.2361 45.4458 22.6139L21.2917 47.5H13.5ZM36.3708 23.9361L35.0875 22.5667L37.7 25.2583L36.3708 23.9361Z"
-                            fill="#E8EAED" />
-                    </svg>
+                <!-- Campo de Nome -->
+                <div class="profile-item">
+                    <label for="first_name">Nome</label>
+                    <input type="text" id="first_name" name="first_name" value="{{ first_name }}" disabled required>
+                    <span class="material-icons edit-icon" id="edit-icons" style="color: white;" onclick="openModal('nameModal')">edit</span>
                 </div>
-            </div>
 
-            <div class="profile-item">
-                <label for="id">ID</label>
-                <input type="text" id="id" value="85236" disabled>
-            </div>
+                <!-- Campo de Sobrenome -->
+                <div class="profile-item">
+                    <label for="last_name">Sobrenome</label>
+                    <input type="text" id="last_name" name="last_name" value="{{ last_name }}" disabled required>
+                    <span class="material-icons edit-icon" id="edit-icons" style="color: white;" onclick="openModal('lastNameModal')">edit</span>
+                </div>
 
-            <div class="profile-item">
-                <label for="sala">Sala</label>
-                <input type="text" id="sala" value="C13" disabled>
-            </div>
+                <!-- Campo de ID -->
+                <div class="profile-item">
+                    <label for="id">ID</label>
+                    <input type="text" id="id" value="{{ id }}" disabled>
+                </div>
 
-            <div class="profile-item">
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" value="********" disabled class="password">
-            </div>
+                <!-- Campo de Sala -->
+                <div class="profile-item">
+                    <label for="sala">Sala</label>
+                    <input type="text" id="sala" value="{{ sala }}" disabled>
+                </div>
+            </form>
+
+            <!-- Exibir mensagens de sucesso -->
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
     </div>
-
 </div>
+
+<!-- Modal para editar o Email -->
+<div id="emailModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal-profile" onclick="closeModal('emailModal')">&times;</span>
+        <h2>Editar Email</h2>
+        <form method="POST" action="{% url 'profile' %}">
+            {% csrf_token %}
+            <label for="modalEmail">Novo Email:</label>
+            <input type="email" id="modalEmail" name="email" value="{{ email }}" required>
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para editar o Nome -->
+<div id="nameModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal-profile" onclick="closeModal('nameModal')">&times;</span>
+        <h2>Editar Nome</h2>
+        <form method="POST" action="{% url 'profile' %}">
+            {% csrf_token %}
+            <label for="modalName">Novo Nome:</label>
+            <input type="text" id="modalName" name="first_name" value="{{ first_name }}" required>
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para editar o Sobrenome -->
+<div id="lastNameModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal-profile" onclick="closeModal('lastNameModal')">&times;</span>
+        <h2>Editar Sobrenome</h2>
+        <form method="POST" action="{% url 'profile' %}">
+            {% csrf_token %}
+            <label for="modalLastName">Novo Sobrenome:</label>
+            <input type="text" id="modalLastName" name="last_name" value="{{ last_name }}" required>
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+</div>
+
+<!-- JavaScript para abrir e fechar a modal -->
+<script>
+    function openModal(modalId) {
+        var modal = document.getElementById(modalId);
+        modal.style.display = "flex";  // Define 'flex' para centralizar a modal
+    }
+
+    function closeModal(modalId) {
+        var modal = document.getElementById(modalId);
+        modal.style.display = "none";
+    }
+
+    // Fecha a modal se clicar fora dela
+    window.onclick = function(event) {
+        var emailModal = document.getElementById('emailModal');
+        var nameModal = document.getElementById('nameModal');
+        var lastNameModal = document.getElementById('lastNameModal');
+
+        if (event.target == emailModal) {
+            emailModal.style.display = "none";
+        }
+        if (event.target == nameModal) {
+            nameModal.style.display = "none";
+        }
+        if (event.target == lastNameModal) {
+            lastNameModal.style.display = "none";
+        }
+    }
+</script>
+
 {% endblock %}

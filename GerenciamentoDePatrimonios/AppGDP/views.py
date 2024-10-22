@@ -41,14 +41,19 @@ def logout(request):
 
 @login_required
 def welcomeHomepage(request):
-    sala = Sala.objects.all()
-    sala_especifica = sala.first()
-    
-    # Verificar se o usuário pertence ao grupo 'Coordenador' ou 'Professor'
+    # Verifica se o usuário pertence a um grupo específico
     is_coordenador = request.user.groups.filter(name="Coordenador").exists()
     is_professor = request.user.groups.filter(name="Professor").exists()
 
-    
+    # Filtra as salas de acordo com o grupo
+    if is_coordenador:
+        sala = Sala.objects.all()  # Coordenador vê todas as salas
+    elif is_professor:
+        sala = Sala.objects.filter(responsavel=request.user.username)  # Professor vê sua sala específica
+    else:
+        sala = []  # Usuário sem grupo relevante não vê nada
+
+    # Gerenciamento de formulário (se aplicável)
     if request.method == 'POST':
         form = SalaForm(request.POST)
         if form.is_valid():
@@ -57,16 +62,15 @@ def welcomeHomepage(request):
     else:
         form = SalaForm()
 
-    sala = Sala.objects.all()
-    
-
+    # Renderizar a página com o contexto adequado
     return render(request, 'welcomeHomepage.html', {
-        'form': form, 
-        'sala': sala, 
-        'sala_especifica': sala_especifica,
-        'is_coordenador': is_coordenador,  # Passa a informação se é coordenador
-        'is_professor': is_professor,  # Passa a informação se é professor
+        'form': form,
+        'sala': sala,
+        'is_coordenador': is_coordenador,
+        'is_professor': is_professor,
     })
+
+
 
 
 # Importar o modelo de itens (substitua Item pelo nome correto do seu modelo)
@@ -354,3 +358,83 @@ def excluir_inventario(request):
             return HttpResponse("Item não encontrado.", status=404)
         
 
+
+
+
+#---------------------------- PROFILE ----------------------------
+@login_required
+def profile(request):
+    user = request.user  # Obter o usuário logado
+    
+    context = {
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'id': user.id,
+        'sala': sala.sala if sala else 'Nenhuma sala atribuída',
+    }
+    
+    return render(request, 'profile.html', context)
+
+@login_required
+def profile(request):
+    user = request.user
+    sala = Sala.objects.filter(responsavel=user).first()  # Assume que 'responsavel' é o campo que liga o usuário à sala
+
+    if request.method == 'POST':
+        # Coleta os valores postados pelas modais, se forem enviados
+        first_name = request.POST.get('first_name', user.first_name)
+        last_name = request.POST.get('last_name', user.last_name)
+        email = request.POST.get('email', user.email)
+
+        # Atualiza os campos do usuário com os novos valores
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.save()
+
+        # Opcional: Mensagem de sucesso (se 'messages' estiver configurado no projeto)
+        from django.contrib import messages
+        messages.success(request, "Perfil atualizado com sucesso.")
+
+    context = {
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'id': user.id,
+        'sala': sala.sala if sala else "Nenhuma sala atribuída",
+    }
+
+    return render(request, 'profile.html', context)
+
+@login_required
+def profile(request):
+    user = request.user  # Usuário logado
+    
+    # Buscar a sala associada ao usuário através do campo 'responsavel'
+    sala = Sala.objects.filter(responsavel=user.username).first()  # Verifica se o username do usuário corresponde ao 'responsavel'
+    
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name', user.first_name)
+        last_name = request.POST.get('last_name', user.last_name)
+        email = request.POST.get('email', user.email)
+
+        # Atualiza o usuário com os novos valores
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.save()
+
+        from django.contrib import messages
+        messages.success(request, "Perfil atualizado com sucesso.")
+    
+    # Prepara o contexto com os dados do perfil e da sala associada
+    context = {
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'id': user.id,
+        'sala': sala.sala if sala else "Nenhuma sala atribuída",  # Exibe o nome da sala ou uma mensagem padrão
+    }
+
+    return render(request, 'profile.html', context)
