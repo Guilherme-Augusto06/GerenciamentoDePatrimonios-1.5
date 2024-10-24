@@ -181,11 +181,19 @@ def excluir_sala(request):
 
 @login_required
 def salas(request):
+    # Verifica os grupos do usuário
     is_coordenador = request.user.groups.filter(name="Coordenador").exists()
     is_professor = request.user.groups.filter(name="Professor").exists()
-    sala = Sala.objects.all()
-    sala_especifica = sala.first()  # ou qualquer outro critério para escolher a sala
 
+    # Filtra as salas com base no grupo do usuário
+    if is_coordenador:
+        sala = Sala.objects.all()  # Coordenador vê todas as salas
+    elif is_professor:
+        sala = Sala.objects.filter(responsavel=request.user.username)  # Professor vê apenas suas salas
+    else:
+        sala = []  # Usuário sem permissão não vê nada
+
+    # Gerenciamento de formulário (caso aplicável)
     if request.method == 'POST':
         form = SalaForm(request.POST)
         if form.is_valid():
@@ -193,9 +201,14 @@ def salas(request):
             return redirect('salas')  # Redireciona para a página de salas
     else:
         form = SalaForm()
-    
-    return render(request, 'salas.html', {'form': form, 'sala': sala, 'sala_especifica': sala_especifica, 'is_coordenador': is_coordenador, 'is_professor': is_professor})
 
+    # Renderiza a página 'salas.html' com o contexto adequado
+    return render(request, 'salas.html', {
+        'form': form,
+        'sala': sala,
+        'is_coordenador': is_coordenador,
+        'is_professor': is_professor,
+    })
 
 
 #---------------------------- LOGIN E CADASTRO DE USUÁRIO ----------------------------
