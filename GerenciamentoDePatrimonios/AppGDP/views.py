@@ -440,3 +440,42 @@ def profile(request):
     }
 
     return render(request, 'profile.html', context)
+
+@login_required
+def profile(request):
+    user = request.user  # Obter o usuário logado
+    
+    # Buscar a sala onde o 'responsavel' seja o email do usuário logado
+    sala_responsavel = Sala.objects.filter(responsavel=user.email).first()  # Usar 'first()' para pegar a primeira sala associada
+    
+    # Verificar se uma sala foi encontrada, e usar o nome da sala ou uma mensagem padrão
+    if sala_responsavel:
+        sala_nome = sala_responsavel.sala  # Atribuir o nome da sala associada
+    else:
+        sala_nome = "Nenhuma sala atribuída"
+    
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name', user.first_name)
+        last_name = request.POST.get('last_name', user.last_name)
+        email = request.POST.get('email', user.email)
+
+        # Atualizar os dados do usuário
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.save()
+
+        from django.contrib import messages
+        messages.success(request, "Perfil atualizado com sucesso.")
+    
+    # Preparar o contexto para o template
+    context = {
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'id': user.id,
+        'sala': sala_nome,  # Passar o nome da sala para o template
+    }
+
+    return render(request, 'profile.html', context)
+
