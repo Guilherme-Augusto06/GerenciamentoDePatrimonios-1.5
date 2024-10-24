@@ -159,6 +159,7 @@ def update_sala(request):
         sala.link_imagem = request.POST.get('link_imagem')	
         sala.responsavel = request.POST.get('responsavel')
         sala.quantidade_itens = request.POST.get('quantidade_itens')
+        sala.email_responsavel = request.POST.get('email_responsavel')
         sala.save()
 
         # Redireciona de volta à página de salas ou para onde você quiser
@@ -213,7 +214,7 @@ def cadastroUsuario(request):
             var_email = form.cleaned_data['email']
             var_senha = form.cleaned_data['password']
             var_grupo = form.cleaned_data['group']  # Captura o grupo selecionado
-
+            var_sala = form.cleaned_data['sala']  # Captura a sala selecionada
             # Cria o usuário
             user = User.objects.create_user(username=var_usuario, email=var_email, password=var_senha)
             user.first_name = var_nome
@@ -223,6 +224,7 @@ def cadastroUsuario(request):
             # Atribui o usuário ao grupo selecionado
             grupo = Group.objects.get(name=var_grupo)
             user.groups.add(grupo)
+            
 
             return redirect('/welcomeHomepage')
             print('Cadastro realizado com sucesso')

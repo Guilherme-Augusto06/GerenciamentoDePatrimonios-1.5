@@ -62,10 +62,12 @@
     transition: background-color 0.3s ease;
     width: 291px;
     height: 60px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
 .botao-cadastro:hover {
-    background-color: #B01818;
+    background-color: #781010;
 }
 
 .box{
@@ -458,7 +460,7 @@
         flex-wrap: wrap;
     
 
-    .im
+
     
     }
 }

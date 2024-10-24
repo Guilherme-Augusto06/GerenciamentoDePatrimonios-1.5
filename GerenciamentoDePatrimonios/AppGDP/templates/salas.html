@@ -26,7 +26,7 @@
 
     <div class="items-container">
         {% for item in sala %}
-        <div class="item-card" onclick="openItemModal('{{ item.sala }}', '{{ item.descricao }}', '{{ item.localizacao }}', '{{ item.link_imagem }}', '{{ item.responsavel }}', '{{ item.quantidade_itens }}')">
+        <div class="item-card" onclick="openItemModal('{{ item.sala }}', '{{ item.descricao }}', '{{ item.localizacao }}', '{{ item.link_imagem }}', '{{ item.responsavel }}', '{{ item.email_responsavel }}' , '{{ item.quantidade_itens }}')">
             <div class="bg-img">
                 <img src="{{ item.link_imagem }}" alt="{{ item.denominacao }}">
             </div>
@@ -69,6 +69,9 @@
 
             <label for="responsavelInput">Responsável:</label>
             <input type="text" id="responsavelInput" name="responsavel" value="" readonly>
+
+            <label for="email_responsavelInput">Email do Responsável:</label>
+            <input type="text" id="email_responsavelInput" name="email_responsavel" value="" readonly>
 
             <label for="quantidadeItensInput">Quantidade de Itens:</label>
             <input type="number" id="quantidadeItensInput" name="quantidade_itens" value="" readonly>
@@ -144,6 +147,8 @@
             document.getElementById("localizacaoInput").removeAttribute("readonly");
             document.getElementById("responsavelInput").removeAttribute("readonly");
             document.getElementById("quantidadeItensInput").removeAttribute("readonly");
+            document.getElementById("link_imagemInput").removeAttribute("readonly");
+            document.getElementById("email_responsavelInput").removeAttribute("readonly");
             
             // Mostra o botão de salvar e esconde o de editar
             document.getElementById("editButton").style.display = "none";
@@ -172,7 +177,8 @@
                 localizacao: document.getElementById("localizacaoInput").value,
                 link_imagem: document.getElementById("link_imagemInput").value,
                 responsavel: document.getElementById("responsavelInput").value,
-                quantidade_itens: document.getElementById("quantidadeItensInput").value
+                quantidade_itens: document.getElementById("quantidadeItensInput").value,
+                email_responsavel: document.getElementById("email_responsavelInput").value
                 
             };
 
@@ -206,16 +212,19 @@
             document.getElementById("link_imagemInput").setAttribute("readonly", true);
             document.getElementById("responsavelInput").setAttribute("readonly", true);
             document.getElementById("quantidadeItensInput").setAttribute("readonly", true);
+            document.getElementById("email_responsavelInput").setAttribute("readonly", true);
 
         }
 
-        function openItemModal(sala, descricao, localizacao, link_imagem, responsavel, quantidade_itens) {
+        function openItemModal(sala, descricao, localizacao, link_imagem, responsavel, email_responsavel, quantidade_itens) {
             document.getElementById('salaInput').value = sala;
             document.getElementById('descricaoInput').value = descricao;
             document.getElementById('localizacaoInput').value = localizacao;
             document.getElementById('link_imagemInput').value = link_imagem;
             document.getElementById('responsavelInput').value = responsavel;
+            document.getElementById('email_responsavelInput').value = email_responsavel;
             document.getElementById('quantidadeItensInput').value = quantidade_itens;
+
 
 
             
